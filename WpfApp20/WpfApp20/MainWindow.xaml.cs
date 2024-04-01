@@ -26,13 +26,12 @@ namespace WpfApp20
         {
             InitializeComponent();
 
-            chatsList.AddItem(new ContactItem { Name = "Mila" });
-
             ContactsListBox.DataContext = chatsList;
 
-            chatWindow.AddItem(new ChatItem { Message = "fdsfsdf"});
-
             ChatWindowListBox.DataContext = chatWindow;
+
+            DataBaseDbContext dataBaseDbContext = new DataBaseDbContext();
+            dataBaseDbContext.LoadInfo();
         }
     }
 }
