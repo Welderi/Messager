@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WpfApp20
 {
+    // User. Use it to create sign in 
     public class User : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
