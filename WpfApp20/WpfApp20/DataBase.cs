@@ -54,13 +54,13 @@ namespace WpfApp20
             modelBuilder.Entity<GroupMembership>()
                 .HasOne(gm => gm.user)
                 .WithMany()
-                .HasForeignKey(gm => gm.UserGMID)
+                .HasForeignKey(gm => gm.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<GroupMembership>()
                 .HasOne(gm => gm.group)
                 .WithMany()
-                .HasForeignKey(gm => gm.GroupGMID)
+                .HasForeignKey(gm => gm.GroupID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
         public void LoadInfo()
