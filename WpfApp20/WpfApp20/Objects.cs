@@ -77,11 +77,11 @@ namespace WpfApp20
         public event PropertyChangedEventHandler PropertyChanged;
         [Key]
         public int MemberID { get; set; }
-        public int UserID { get; set; }
-        [ForeignKey("UserID")]
+        public int UserGMID { get; set; }
+        [ForeignKey("UserGMID")]
         public User user { get; set; }
-        public int GroupID { get; set; }
-        [ForeignKey("GroupID")]
+        public int GroupGMID { get; set; }
+        [ForeignKey("GroupGMID")]
         public Group group { get; set; }
         public int Role { get; set; }
         public DateTime JoinDate { get; set; }
