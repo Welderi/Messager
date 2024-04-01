@@ -65,35 +65,7 @@ namespace WpfApp20
         }
         public void LoadInfo()
         {
-            try
-            {
-                var sender = new User { Name = "John", Email = "john@example.com", Password = "password" };
-                var recipient = new User { Name = "Alice", Email = "alice@example.com", Password = "password" };
-                Users.AddRange(sender, recipient);
-                SaveChanges();
-
-                Contacts.Add(new Contact { User = sender });
-                SaveChanges();
-
-                Messages.Add(new Message { Sender = sender, Recipient = recipient, Content = "Hello, world!", Time = DateTime.Now });
-                SaveChanges();
-
-                var group = new Group { Name = "Test Group", Description = "This is a test group", CreationDate = DateTime.Now, Creator = sender };
-                Groups.Add(group);
-                SaveChanges();
-
-                var groupMembership = new GroupMembership { user = recipient, group = group, Role = 1, JoinDate = DateTime.Now };
-                GroupMemberships.Add(groupMembership);
-                SaveChanges();
-            }
-            catch (DbUpdateException ex)
-            {
-                MessageBox.Show($"An error occurred while updating the entries: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    MessageBox.Show($"Inner exception: {ex.InnerException.Message}");
-                }
-            }
+            
         }
     }
 }

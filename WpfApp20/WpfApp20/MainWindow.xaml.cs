@@ -31,7 +31,6 @@ namespace WpfApp20
             ChatWindowListBox.DataContext = chatWindow;
 
             DataBaseDbContext dataBaseDbContext = new DataBaseDbContext();
-            dataBaseDbContext.LoadInfo();
         }
     }
 }
