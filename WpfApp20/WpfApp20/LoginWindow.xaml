@@ -11,21 +11,28 @@
         <StackPanel Margin="20,20,19.6,37">
             <Label Content="Вход в систему" Foreground="Black" FontSize="25" HorizontalAlignment="Center"/>
             <Separator/>
+            
             <Label Content="Имя пользователя" Foreground="Black"/>
-            <TextBox x:Name="txtUsername" Foreground="White" Background="#545d6a" FontSize="18"/>
+            <TextBox x:Name="txtUserName" Foreground="White" 
+                     Background="#545d6a" FontSize="18" TextChanged="UserNameTextChanged"/>
+            
             <Label Content="Пароль" Foreground="Black"/>
-            <PasswordBox x:Name="txtPassword" Foreground="White" Background="#545d6a" FontSize="18"/>
+            <PasswordBox x:Name="txtPassword" Foreground="White" 
+                         Background="#545d6a" FontSize="18"/>
+            
             <Button x:Name="btnSubmit" 
                     Foreground="Black" 
-                    
                     Background="#c2f6f8" 
                     FontSize="18" 
                     Content="Вход" 
                     Margin="60,10" 
                     Cursor="Hand" 
-                    Height="29"/>
+                    Height="29"
+                    Click="GenerateChatWindow"/>
 
-            <TextBlock Foreground="Black"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Cursor="Hand" TextDecorations="Underline" Text="Регистрация">
+            <TextBlock Foreground="Black"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Cursor="Hand" 
+                       TextDecorations="Underline" Text="Регистрация" 
+                       MouseLeftButtonDown="GenerateCreateNewUser">
                 <TextBlock.InputBindings>
                 </TextBlock.InputBindings>
             </TextBlock>

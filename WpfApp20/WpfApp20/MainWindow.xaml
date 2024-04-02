@@ -6,89 +6,11 @@
         xmlns:local="clr-namespace:WpfApp20"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
-    <Window.Resources>
-        <!-- For left panel -->
-        <Style x:Key="ListBoxStyleContacts" TargetType="ListBox">
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="Height" Value="400"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Width" Value="180"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
 
-        <!-- For chat -->
-        <Style x:Key="ListBoxStyleChat" TargetType="ListBox">
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="355"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Width" Value="600"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Margin" Value="0, 0, 0, 50"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                            <ScrollViewer Focusable="False">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel VerticalAlignment="Bottom" IsItemsHost="True"/>
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <!-- Window for typing -->
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="550"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Margin" Value="0, 0, 30, 20"/>
-            <Setter Property="FontSize" Value="20"/>
-        </Style>
-    </Window.Resources>
-    
     <Grid>
-        <!-- Left panel -->
-        <Grid>
-            <ListBox x:Name="ContactsListBox" Style="{StaticResource ListBoxStyleContacts}"
-                     ItemsSource="{Binding ContactsCollection}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-
-        <!-- Chat -->
-        <Grid>
-            <ListBox x:Name="ChatWindowListBox" Style="{StaticResource ListBoxStyleChat}"
-                     ItemsSource="{Binding MessagesCollection}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Message}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>
-        
-        <!-- Window for typing -->
-        <TextBox Style="{StaticResource TextBoxStyle}"/>
+        <Button Height="50" Width="100" Content="Create new account"
+                Click="GenerateCreateWindow"></Button>
+        <Button Height="50" Width="100" Content="Sing in" 
+                Margin="300, 0, 0, 0" Click="GenerateSignInWindow"></Button>
     </Grid>
 </Window>

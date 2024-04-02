@@ -90,6 +90,27 @@ namespace WpfApp20
                 SaveChanges();
             }
         }
+        public bool CheckUserExists(string login)
+        {
+            return Users.Any(u => u.Name == login);
+        }
+        public bool CheckEmailExists(string email)
+        {
+            return Users.Any(u => u.Email == email);
+        }
+        public bool CheckUserPassword(string name, string pass)
+        {
+            var user = Users.FirstOrDefault(u => u.Name == name);
+
+            if (user != null && user.Password == pass)
+            {
+                return true; 
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         //  Contact
         public void AddToContacts(int concreteuserID, int userID)

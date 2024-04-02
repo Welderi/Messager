@@ -14,19 +14,27 @@
         <Border Background="White" CornerRadius="30" Margin="30,30" Grid.ColumnSpan="2">
             <StackPanel Margin="20">
                 <DockPanel>
-                    <Button Width="50" Height="25" Background="Transparent" BorderBrush="Transparent" Content="Назад">
+                    <Button Width="50" Height="25" Background="Transparent" BorderBrush="Transparent" Content="Назад"
+                            Click="BackToMain">
                     </Button>
                     <Label Content="Регистрация" Foreground="Black" FontSize="25" Height="45" Width="190"></Label>
                 </DockPanel>
                 <Separator/>
 
                 <Label Content="Логин:" Foreground="Black"/>
-                <TextBox x:Name="txtUserLogin" Foreground="White" Background="#545d6a" FontSize="18"/>
+                <TextBox x:Name="txtUserLogin" Foreground="White" Background="#545d6a"
+                         FontSize="18" TextChanged="UserLoginTextChanged"/>
+                
+                <Label Content="Email:" Foreground="Black"/>
+                <TextBox x:Name="txtEmail" Foreground="White" Background="#545d6a"
+                         FontSize="18" TextChanged="EmailTextChanged"/>
+                
                 <Label Content="Пароль:" Foreground="Black"/>
                 <PasswordBox x:Name="txtUserPassword" Foreground="White" Background="#545d6a" FontSize="18"/>
+                
                 <Label Content="Повторите Пароль:" Foreground="Black"/>
                 <PasswordBox x:Name="txtUserRePassword" Foreground="White" Background="#545d6a" FontSize="18"/>
-
+                
                 <Button x:Name="btnRegister" 
                         Background="#c2f6f8"  
                         Foreground="Black" 
@@ -34,7 +42,7 @@
                         Content="Зарегистрироваться" 
                         Margin="60 10" 
                         Cursor="Hand" 
-                        Command="{}"/>
+                        Click="CreateNewAccount"/>
 
             </StackPanel>
         </Border>

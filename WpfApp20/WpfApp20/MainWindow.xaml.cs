@@ -20,17 +20,19 @@ namespace WpfApp20
     /// </summary>
     public partial class MainWindow : Window
     {
-        ChatsList chatsList = new ChatsList();
-        ChatWindow chatWindow = new ChatWindow();
         public MainWindow()
         {
             InitializeComponent();
-
-            ContactsListBox.DataContext = chatsList;
-
-            ChatWindowListBox.DataContext = chatWindow;
-
-            DataBaseDbContext dataBaseDbContext = new DataBaseDbContext();
+        }
+        public void GenerateCreateWindow(object obj, RoutedEventArgs arg)
+        {
+            RegistrationWindow registrationWindow = new RegistrationWindow();
+            registrationWindow.Show();
+        }
+        public void GenerateSignInWindow(object obj, RoutedEventArgs arg)
+        {
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show();
         }
     }
 }
