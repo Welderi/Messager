@@ -28,10 +28,21 @@ namespace WpfApp20
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BigDBMessager;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BigDBMessager1;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Contact>()
+                .HasOne(m => m.ConcreteUser)
+                .WithMany()
+                .HasForeignKey(m => m.ConcreteUserID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Contact>()
+                .HasOne(m => m.User)
+                .WithMany()
+                .HasForeignKey(m => m.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Message>()
                 .HasOne(m => m.Sender)
@@ -63,9 +74,88 @@ namespace WpfApp20
                 .HasForeignKey(gm => gm.GroupGMID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
-        public void LoadInfo()
+
+        //  User
+        public void AddToUsers(string name, string pass, string email)
         {
-            
+            Users.Add(new User { Name = name, Password = pass, Email = email});
+            SaveChanges();
+        }
+        public void DeleteFromUsers(int id)
+        {
+            var userToRemove = Users.FirstOrDefault(u => u.UserID == id);
+            if (userToRemove != null)
+            {
+                Users.Remove(userToRemove);
+                SaveChanges();
+            }
+        }
+
+        //  Contact
+        public void AddToContacts(int concreteuserID, int userID)
+        {
+            Contacts.Add(new Contact { UserID = userID, ConcreteUserID = concreteuserID});
+            SaveChanges();
+        }
+        public void DeleteFromContacts(int id)
+        {
+            var contactToRemove = Contacts.FirstOrDefault(u => u.ContactID == id);
+            if (contactToRemove != null)
+            {
+                Contacts.Remove(contactToRemove);
+                SaveChanges();
+            }
+        }
+
+        //  Message
+        public void AddToMessages(int senderID, int recipientID, string content, bool isRead, DateTime time)
+        {
+            Messages.Add(new Message { SenderID = senderID, RecipientID = recipientID, 
+                                       Content = content, IsRead = isRead});
+            SaveChanges();
+        }
+        public void DeleteFromMessages(int id)
+        {
+            var messageToRemove = Messages.FirstOrDefault(u => u.MessageID == id);
+            if (messageToRemove != null)
+            {
+                Messages.Remove(messageToRemove);
+                SaveChanges();
+            }
+        }
+
+        //  Group
+        public void AddToGroups(string name, string desc, DateTime time, int creatorID)
+        {
+            Groups.Add(new Group { Name = name, Description = desc, 
+                                   CreationDate = time, CreatorID = creatorID});
+            SaveChanges();
+        }
+        public void DeleteFromGroups(int id)
+        {
+            var groupToRemove = Groups.FirstOrDefault(u => u.GroupID == id);
+            if (groupToRemove != null)
+            {
+                Groups.Remove(groupToRemove);
+                SaveChanges();
+            }
+        }
+
+        // GM
+        public void AddToGroupMemberships(int userGMID, int groupGMID, string role, DateTime time)
+        {
+            GroupMemberships.Add(new GroupMembership { UserGMID = userGMID, GroupGMID = groupGMID, 
+                                                       Role = role, JoinDate = time});
+            SaveChanges();
+        }
+        public void DeleteFromGroupMemberships(int id)
+        {
+            var GMToRemove = GroupMemberships.FirstOrDefault(u => u.MemberID == id);
+            if (GMToRemove != null)
+            {
+                GroupMemberships.Remove(GMToRemove);
+                SaveChanges();
+            }
         }
     }
 }

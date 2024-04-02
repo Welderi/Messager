@@ -31,6 +31,9 @@ namespace WpfApp20
         [Key]
         public int ContactID { get; set; }
 
+        public int ConcreteUserID { get; set; }
+        [ForeignKey("ConcreteUserID")]
+        public User ConcreteUser { get; set; }
         public int UserID { get; set; }
         [ForeignKey("UserID")]
         public User User { get; set; }
@@ -53,8 +56,6 @@ namespace WpfApp20
         public string Content { get; set; }
 
         public bool IsRead { get; set; }
-
-        public bool IsDeleted { get; set; }
 
         public DateTime Time { get; set; }
     }
@@ -83,7 +84,7 @@ namespace WpfApp20
         public int GroupGMID { get; set; }
         [ForeignKey("GroupGMID")]
         public Group group { get; set; }
-        public int Role { get; set; }
+        public string Role { get; set; }
         public DateTime JoinDate { get; set; }
     }
 }
