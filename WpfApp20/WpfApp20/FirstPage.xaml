@@ -89,5 +89,7 @@
         
         <!-- Window for typing -->
         <TextBox Style="{StaticResource TextBoxStyle}"/>
+        <Button Height="50" Width="50" HorizontalAlignment="Right"
+                Content="Send" VerticalAlignment="Bottom"></Button>
     </Grid>
 </Window>

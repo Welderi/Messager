@@ -31,5 +31,9 @@ namespace WpfApp20
 
             DataBaseDbContext dataBaseDbContext = new DataBaseDbContext();
         }
+        public void ReceiveId(int id)
+        {
+            chatsList.AddContactsFromDatabase(id);
+        }
     }
 }

@@ -24,6 +24,24 @@ namespace WpfApp20
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public void AddContactsFromDatabase(int id)
+        {
+            using (var dbContext = new DataBaseDbContext())
+            {
+                var contactsForConcreteUser = dbContext.Contacts.Where(c => c.ConcreteUserID == id).ToList();
+
+                ContactsCollection.Clear();
+
+                foreach (var contact in contactsForConcreteUser)
+                {
+                    var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.UserID);
+
+                    var contactItem = new ContactItem { Name = user.Name };
+
+                    AddItem(contactItem);
+                }
+            }
+        }
     }
     public class ContactItem : INotifyPropertyChanged
     {

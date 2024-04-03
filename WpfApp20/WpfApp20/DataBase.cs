@@ -111,7 +111,11 @@ namespace WpfApp20
                 return false;
             }
         }
-
+        public int GetId(string login)
+        {
+            var user = Users.FirstOrDefault(u => u.Name == login);
+            return user.UserID;
+        }
         //  Contact
         public void AddToContacts(int concreteuserID, int userID)
         {

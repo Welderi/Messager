@@ -58,6 +58,7 @@ namespace WpfApp20
             {
                 this.Close();
                 FirstPage firstPage = new FirstPage();
+                firstPage.ReceiveId(dataBaseDbContext.GetId(login));
                 firstPage.Show();
             }
         }
