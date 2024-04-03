@@ -22,16 +22,20 @@ namespace WpfApp20
         {
             if (!Database.CanConnect())
             {
-                //Database.EnsureDeleted();
+                Database.EnsureDeleted();
                 Database.EnsureCreated();
             }
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BigDBMessager1;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=BigDBMessager2;Trusted_Connection=True;");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Contact>()
+                .HasIndex(c => new { c.ConcreteUserID, c.UserID })
+                .IsUnique();
+
             modelBuilder.Entity<Contact>()
                 .HasOne(m => m.ConcreteUser)
                 .WithMany()
