@@ -19,7 +19,27 @@ namespace WpfApp20
             MessagesCollection.Add(obj);
             OnPropertyChanged(nameof(MessagesCollection));
         }
+        public void DisplayConversation(int Userid, int concUserId)
+        {
+            MessagesCollection.Clear();
 
+            using (var dbContext = new DataBaseDbContext())
+            {
+                var messages = dbContext.Messages.Where(m => m.SenderID == concUserId && m.RecipientID == Userid).ToList();
+                var messages2 = dbContext.Messages.Where(m => m.SenderID == Userid && m.RecipientID == concUserId).ToList();
+
+                foreach (var message in messages)
+                {
+                    var chatItem = new ChatItem { Message = message.Content };
+                    AddItem(chatItem);
+                }
+                foreach (var message in messages2)
+                {
+                    var chatItem = new ChatItem { Message = message.Content };
+                    AddItem(chatItem);
+                }
+            }
+        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

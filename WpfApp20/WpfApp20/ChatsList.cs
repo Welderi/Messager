@@ -29,12 +29,21 @@ namespace WpfApp20
             using (var dbContext = new DataBaseDbContext())
             {
                 var contactsForConcreteUser = dbContext.Contacts.Where(c => c.ConcreteUserID == id).ToList();
+                var contactsForConcreteUser1 = dbContext.Contacts.Where(c => c.UserID == id).ToList();
 
                 ContactsCollection.Clear();
 
                 foreach (var contact in contactsForConcreteUser)
                 {
                     var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.UserID);
+
+                    var contactItem = new ContactItem { Name = user.Name };
+
+                    AddItem(contactItem);
+                }
+                foreach (var contact in contactsForConcreteUser1)
+                {
+                    var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.ConcreteUserID);
 
                     var contactItem = new ContactItem { Name = user.Name };
 

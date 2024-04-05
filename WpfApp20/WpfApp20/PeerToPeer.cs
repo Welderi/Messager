@@ -8,6 +8,7 @@ namespace WpfApp20
 {
     public class PeerToPeer
     {
+        private const int Port = 8000;
 
     }
 }

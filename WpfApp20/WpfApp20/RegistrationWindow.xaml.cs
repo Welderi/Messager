@@ -72,6 +72,8 @@ namespace WpfApp20
             if (txtUserPassword.Password == txtUserRePassword.Password)
             {
                 dataBaseDbContext.AddToUsers(txtUserLogin.Text, txtUserPassword.Password, txtEmail.Text);
+                LoginWindow loginWindow = new LoginWindow();
+                loginWindow.Show();
                 this.Close();
             }
         }

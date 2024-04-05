@@ -66,7 +66,8 @@
         <!-- Left panel -->
         <Grid>
             <ListBox x:Name="ContactsListBox" Style="{StaticResource ListBoxStyleContacts}"
-                     ItemsSource="{Binding ContactsCollection}">
+                     ItemsSource="{Binding ContactsCollection}"
+                     SelectionChanged="ContactsListBoxChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}" />
@@ -88,8 +89,23 @@
         </Grid>
         
         <!-- Window for typing -->
-        <TextBox Style="{StaticResource TextBoxStyle}"/>
+        <TextBox Style="{StaticResource TextBoxStyle}" x:Name="txtTextBoxMessage"/>
         <Button Height="50" Width="50" HorizontalAlignment="Right"
-                Content="Send" VerticalAlignment="Bottom"></Button>
+                Content="Send" VerticalAlignment="Bottom"
+                Click="SendMessage"></Button>
+
+        <Button Height="50" Width="50" Content="Add new Contact"
+                Click="DisplayContactAdd"/>
+
+        <Border Height="200" Width="200" Background="AliceBlue" 
+                VerticalAlignment="Bottom" Visibility="Collapsed"
+                x:Name="BorderContact">
+            <Grid>
+                <Label Content="Add new user contact"></Label>
+                <TextBox x:Name="txtUserContact" Height="50"></TextBox>
+                <Button Height="50" Width="50" Content="Add contact"
+                        VerticalAlignment="Bottom" Click="AddNewContact"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

@@ -56,10 +56,10 @@ namespace WpfApp20
 
             if (dataBaseDbContext.CheckUserPassword(login, pass) && dataBaseDbContext.CheckUserExists(login)) 
             {
-                this.Close();
                 FirstPage firstPage = new FirstPage();
                 firstPage.ReceiveId(dataBaseDbContext.GetId(login));
                 firstPage.Show();
+                this.Close();
             }
         }
     }
