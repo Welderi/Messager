@@ -71,5 +71,10 @@ namespace WpfApp20
                 chatWindow.DisplayConversation(selectedUserId, userId); 
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

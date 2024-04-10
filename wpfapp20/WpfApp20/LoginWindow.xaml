@@ -1,0 +1,42 @@
+﻿<Window x:Class="WpfApp20.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp20"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="360" Width="300" FontSize="14" Background="#7e5fdc" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+    <Border Background="White" CornerRadius="20" Margin="20,20">
+        <StackPanel Margin="20,20,19.6,37">
+            <Label Content="Вход в систему" Foreground="Black" FontSize="25" HorizontalAlignment="Center"/>
+            <Separator/>
+            
+            <Label Content="Имя пользователя" Foreground="Black"/>
+            <TextBox x:Name="txtUserName" Foreground="White" 
+                     Background="#545d6a" FontSize="18" TextChanged="UserNameTextChanged"/>
+            
+            <Label Content="Пароль" Foreground="Black"/>
+            <PasswordBox x:Name="txtPassword" Foreground="White" 
+                         Background="#545d6a" FontSize="18"/>
+            
+            <Button x:Name="btnSubmit" 
+                    Foreground="Black" 
+                    Background="#7e5fdc" 
+                    FontSize="18" 
+                    Content="Вход" 
+                    Margin="60,10" 
+                    Cursor="Hand" 
+                    Height="29"
+                    Click="GenerateChatWindow"/>
+
+            <TextBlock Foreground="Black"  VerticalAlignment="Bottom" HorizontalAlignment="Center" Cursor="Hand" 
+                       TextDecorations="Underline" Text="Регистрация" 
+                       MouseLeftButtonDown="GenerateCreateNewUser">
+                <TextBlock.InputBindings>
+                </TextBlock.InputBindings>
+            </TextBlock>
+
+        </StackPanel>
+    </Border>
+</Window>

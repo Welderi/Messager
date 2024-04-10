@@ -3,99 +3,155 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfApp20"
         mc:Ignorable="d"
-        Title="FirstPage" Height="450" Width="800">
-    <Window.Resources>
-        <!-- For left panel -->
-        <Style x:Key="ListBoxStyleContacts" TargetType="ListBox">
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="Height" Value="400"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Width" Value="180"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
+        Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        AllowsTransparency="True" Background="Transparent">
 
-        <!-- For chat -->
-        <Style x:Key="ListBoxStyleChat" TargetType="ListBox">
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="355"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Width" Value="600"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Margin" Value="0, 0, 0, 50"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                            <ScrollViewer Focusable="False">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemsPanel">
-                <Setter.Value>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel VerticalAlignment="Bottom" IsItemsHost="True"/>
-                    </ItemsPanelTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
-        <!-- Window for typing -->
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="550"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="VerticalAlignment" Value="Bottom"/>
-            <Setter Property="Margin" Value="0, 0, 30, 20"/>
-            <Setter Property="FontSize" Value="20"/>
-        </Style>
-    </Window.Resources>
-    
-    <Grid>
-        <!-- Left panel -->
+    <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
         <Grid>
-            <ListBox x:Name="ContactsListBox" Style="{StaticResource ListBoxStyleContacts}"
-                     ItemsSource="{Binding ContactsCollection}"
-                     SelectionChanged="ContactsListBoxChanged">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!--Left Menu-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!--Main Section-->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <!--Menu Icon-->
+            <Button Margin="21,28,142,660" Style="{StaticResource topButton}" >
+                <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
+            </Button>
+
+            <Border Background="#623ed0" CornerRadius="0 50 0 30" Height="595" VerticalAlignment="Bottom">
+                <DockPanel>
+                    <!--Menu Profile-->
+                    <Border Width="80" Height="80" Padding="3" Background="White" CornerRadius="100"
+                            DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="30 -30 0 0">
+                        <Ellipse>
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="C:\Users\Admin\source\repos\Test\test\Images\c8fcdb7e4656ff95aa29067c6ce4dc85.jpg"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Border>
+
+                    <!--Menu Titles-->
+                    <TextBlock Text="Profile Name" Foreground="White" FontWeight="SemiBold"
+                               DockPanel.Dock="Top" TextAlignment="Center" Margin="-55 15 0 10"/>
+                    <TextBlock Text="About me" Foreground="White" FontWeight="SemiBold"
+                               DockPanel.Dock="Top" TextAlignment="Left" Margin="5 5 0 10"/>
+
+                    <!--Menu Seprator-->
+                    <Separator Margin="25" DockPanel.Dock="Top" Height="0.8" Background="#7e5fdc"/>
+
+                    <!--Menu Buttons-->
+                    <StackPanel DockPanel.Dock="Top">
+                        <Button Style="{StaticResource menuButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="ForumOutline" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Chats"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Top">
+                        <Button Style="{StaticResource menuButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="Contacts"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Top">
+                        <Button Style="{StaticResource menuButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <Icon:PackIconMaterial Kind="Message" Style="{StaticResource menuButtonIcon}"/>
+                                <TextBlock Text="chats"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Logout"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20">
+                        <StackPanel Orientation="Horizontal">
+                            <Icon:PackIconMaterial Kind="Cog" Style="{StaticResource menuButtonIcon}"/>
+                            <TextBlock Text="Settings"/>
+                        </StackPanel>
+                    </Button>
+                </DockPanel>
+            </Border>
+
+
+
+            <!--Search Textbox-->
+            <Grid Width="320" HorizontalAlignment="Left" Margin="418,4,0,678" Grid.Column="1">
+                <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
+                           Panel.ZIndex="1" Text="Search here ..."
+                           Visibility="Visible"/>
+                <TextBox x:Name="txtSearch"/>
+
+                <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
+                                       Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
+            </Grid>
+
+
+
+
+
+
+
+
         </Grid>
+    </Border>
+</Window>
 
-        <!-- Chat -->
-        <Grid>
+
+<!-- Chat -->
+<!--<Grid>
             <ListBox x:Name="ChatWindowListBox" Style="{StaticResource ListBoxStyleChat}"
-                     ItemsSource="{Binding MessagesCollection}">
+                     ItemsSource="{Binding MessagesCollection}" HorizontalAlignment="Left" Height="593" Margin="540,54,0,0" VerticalAlignment="Top" Width="540">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Message}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Grid>
-        
-        <!-- Window for typing -->
-        <TextBox Style="{StaticResource TextBoxStyle}" x:Name="txtTextBoxMessage"/>
+        </Grid>-->
+
+<!-- Window for typing -->
+<!--<TextBox Style="{StaticResource TextBoxStyle}" x:Name="txtTextBoxMessage" Width="510"/>
         <Button Height="50" Width="50" HorizontalAlignment="Right"
                 Content="Send" VerticalAlignment="Bottom"
                 Click="SendMessage"></Button>
 
         <Button Height="50" Width="50" Content="Add new Contact"
-                Click="DisplayContactAdd"/>
+                Click="DisplayContactAdd" Margin="1030,0,0,654"/>
 
         <Border Height="200" Width="200" Background="AliceBlue" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"
@@ -107,5 +163,7 @@
                         VerticalAlignment="Bottom" Click="AddNewContact"/>
             </Grid>
         </Border>
-    </Grid>
-</Window>
+    </Grid>-->
+
+
+
