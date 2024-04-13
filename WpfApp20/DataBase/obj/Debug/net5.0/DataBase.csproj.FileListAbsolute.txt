@@ -1,0 +1,12 @@
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\bin\Debug\net5.0\DataBase.deps.json
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\bin\Debug\net5.0\DataBase.dll
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\bin\Debug\net5.0\ref\DataBase.dll
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\bin\Debug\net5.0\DataBase.pdb
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.csproj.AssemblyReference.cache
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.AssemblyInfoInputs.cache
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.AssemblyInfo.cs
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.csproj.CoreCompileInputs.cache
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.dll
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\ref\DataBase.dll
+C:\Users\lizak\source\repos\MessagerNext\WpfApp20\DataBase\obj\Debug\net5.0\DataBase.pdb

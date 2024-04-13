@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace WpfApp20
+namespace DataBase
 {
-    // User. Use it to create sign in 
     public class User : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

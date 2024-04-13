@@ -1495,6 +1495,19 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "DataBase/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "5.0.17"
+        },
+        "compile": {
+          "bin/placeholder/DataBase.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DataBase.dll": {}
+        }
       }
     }
   },
@@ -5764,28 +5777,33 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "DataBase/1.0.0": {
+      "type": "project",
+      "path": "../DataBase/DataBase.csproj",
+      "msbuildProject": "../DataBase/DataBase.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0-windows7.0": [
-      "MahApps.Metro.IconPacks.Material >= 4.11.0",
-      "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.17"
+      "DataBase >= 1.0.0",
+      "MahApps.Metro.IconPacks.Material >= 4.11.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\lizak\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
+      "projectUniqueName": "C:\\Users\\lizak\\Source\\Repos\\MessagerNext\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
       "projectName": "WpfApp20",
-      "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\WpfApp20\\obj\\",
+      "projectPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerNext\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
+      "packagesPath": "C:\\Users\\lizak\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerNext\\WpfApp20\\WpfApp20\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\lizak\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5798,7 +5816,11 @@
       "frameworks": {
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\lizak\\Source\\Repos\\MessagerNext\\WpfApp20\\DataBase\\DataBase.csproj": {
+              "projectPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerNext\\WpfApp20\\DataBase\\DataBase.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -5814,10 +5836,6 @@
           "MahApps.Metro.IconPacks.Material": {
             "target": "Package",
             "version": "[4.11.0, )"
-          },
-          "Microsoft.EntityFrameworkCore.SqlServer": {
-            "target": "Package",
-            "version": "[5.0.17, )"
           }
         },
         "imports": [
@@ -5838,7 +5856,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
       }
     }
   }

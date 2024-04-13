@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace WpfApp20
+namespace DataBase
 {
     public class DataBaseDbContext : DbContext
     {
@@ -82,7 +82,7 @@ namespace WpfApp20
         //  User
         public void AddToUsers(string name, string pass, string email)
         {
-            Users.Add(new User { Name = name, Password = pass, Email = email});
+            Users.Add(new User { Name = name, Password = pass, Email = email });
             SaveChanges();
         }
         public void DeleteFromUsers(int id)
@@ -108,7 +108,7 @@ namespace WpfApp20
 
             if (user != null && user.Password == pass)
             {
-                return true; 
+                return true;
             }
             else
             {
@@ -123,7 +123,7 @@ namespace WpfApp20
         //  Contact
         public void AddToContacts(int concreteuserID, int userID)
         {
-            Contacts.Add(new Contact { UserID = userID, ConcreteUserID = concreteuserID});
+            Contacts.Add(new Contact { UserID = userID, ConcreteUserID = concreteuserID });
             SaveChanges();
         }
         public void DeleteFromContacts(int id)
@@ -139,8 +139,13 @@ namespace WpfApp20
         //  Message
         public void AddToMessages(int senderID, int recipientID, string content, bool isRead, DateTime time)
         {
-            Messages.Add(new Message { SenderID = senderID, RecipientID = recipientID, 
-                                       Content = content, IsRead = isRead});
+            Messages.Add(new Message
+            {
+                SenderID = senderID,
+                RecipientID = recipientID,
+                Content = content,
+                IsRead = isRead
+            });
             SaveChanges();
         }
         public void DeleteFromMessages(int id)
@@ -156,8 +161,13 @@ namespace WpfApp20
         //  Group
         public void AddToGroups(string name, string desc, DateTime time, int creatorID)
         {
-            Groups.Add(new Group { Name = name, Description = desc, 
-                                   CreationDate = time, CreatorID = creatorID});
+            Groups.Add(new Group
+            {
+                Name = name,
+                Description = desc,
+                CreationDate = time,
+                CreatorID = creatorID
+            });
             SaveChanges();
         }
         public void DeleteFromGroups(int id)
@@ -173,8 +183,13 @@ namespace WpfApp20
         // GM
         public void AddToGroupMemberships(int userGMID, int groupGMID, string role, DateTime time)
         {
-            GroupMemberships.Add(new GroupMembership { UserGMID = userGMID, GroupGMID = groupGMID, 
-                                                       Role = role, JoinDate = time});
+            GroupMemberships.Add(new GroupMembership
+            {
+                UserGMID = userGMID,
+                GroupGMID = groupGMID,
+                Role = role,
+                JoinDate = time
+            });
             SaveChanges();
         }
         public void DeleteFromGroupMemberships(int id)

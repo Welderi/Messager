@@ -47,11 +47,11 @@
                     <!--Menu Profile-->
                     <Border Width="80" Height="80" Padding="3" Background="White" CornerRadius="100"
                             DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="30 -30 0 0">
-                        <Ellipse>
+                        <!--<Ellipse>
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="C:\Users\Admin\source\repos\Test\test\Images\c8fcdb7e4656ff95aa29067c6ce4dc85.jpg"/>
+                                <ImageBrush ImageSource="DefaultImage.png"/>
                             </Ellipse.Fill>
-                        </Ellipse>
+                        </Ellipse>-->
                     </Border>
 
                     <!--Menu Titles-->

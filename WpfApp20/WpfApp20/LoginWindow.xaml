@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp20"
         mc:Ignorable="d"
-        Title="Авторизация" Height="360" Width="300" FontSize="14" Background="#c2f6f8" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Авторизация" Height="360" Width="300" FontSize="14" Background="#7e5fdc" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Border Background="White" CornerRadius="20" Margin="20,20">
         <StackPanel Margin="20,20,19.6,37">
@@ -22,7 +22,7 @@
             
             <Button x:Name="btnSubmit" 
                     Foreground="Black" 
-                    Background="#c2f6f8" 
+                    Background="#7e5fdc" 
                     FontSize="18" 
                     Content="Вход" 
                     Margin="60,10" 

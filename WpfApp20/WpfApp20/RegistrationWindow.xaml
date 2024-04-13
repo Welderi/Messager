@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp20"
         mc:Ignorable="d"
-        Title="Регистрация" Height="595.138" Width="525" FontSize="14" Background="#c2f6f8" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Регистрация" Height="595.138" Width="525" FontSize="14" Background="#7e5fdc" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
 
@@ -36,7 +36,7 @@
                 <PasswordBox x:Name="txtUserRePassword" Foreground="White" Background="#545d6a" FontSize="18"/>
                 
                 <Button x:Name="btnRegister" 
-                        Background="#c2f6f8"  
+                        Background="#7e5fdc"  
                         Foreground="Black" 
                         FontSize="18" 
                         Content="Зарегистрироваться" 
