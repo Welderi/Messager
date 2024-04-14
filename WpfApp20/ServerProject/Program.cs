@@ -13,7 +13,7 @@ namespace ServerProject
         static void Main(string[] args)
         {
             clients = new List<ClientInServerProject>();
-            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 7890);
+            listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 7891);
             listener.Start();
 
             while (true)

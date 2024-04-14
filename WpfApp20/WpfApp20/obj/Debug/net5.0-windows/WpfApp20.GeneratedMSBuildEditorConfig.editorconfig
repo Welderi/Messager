@@ -7,4 +7,4 @@ build_property.PublishSingleFile =
 build_property.IncludeAllContentForSelfExtract = 
 build_property._SupportedPlatformList = Android,iOS,Linux,macOS,Windows
 build_property.RootNamespace = WpfApp20
-build_property.ProjectDir = C:\Users\lizak\Source\Repos\MessagerNext\WpfApp20\WpfApp20\
+build_property.ProjectDir = C:\Users\lizak\source\repos\MessagerNext\WpfApp20\WpfApp20\

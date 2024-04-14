@@ -6,57 +6,103 @@
         xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:WpfApp20"
         mc:Ignorable="d"
-        Height="720" Width="1080" WindowStartupLocation="CenterScreen" WindowStyle="None"
-        AllowsTransparency="True" Background="Transparent">
+        Height="720" Width="1080" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- For chat -->
+        <Style x:Key="ListBoxStyleChat" TargetType="ListBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                            <ScrollViewer Focusable="False">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel VerticalAlignment="Bottom" IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-    <Border Background="#eff2f7" CornerRadius="30" MouseDown="Border_MouseDown" MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <!--Left Menu-->
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        </Grid>
 
-            <!--Left Menu-->
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-            </Grid>
-
-            <!--Main Section-->
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-            </Grid>
-
+        <!--Main Section-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Grid>
             <!--Menu Icon-->
-            <Button Margin="21,28,142,660" Style="{StaticResource topButton}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Button Style="{StaticResource topButton}" VerticalAlignment="Top"
+                    Click="Menu_ButtonClick" Margin="20">
                 <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
             </Button>
 
-            <Border Background="#623ed0" CornerRadius="0 50 0 30" Height="595" VerticalAlignment="Bottom">
+            <!-- List Box with all chats -->
+            <Grid Grid.Row="1" Background="Aqua" Height="600">
+                <ListBox x:Name="ContactsListBox"
+                     ItemsSource="{Binding ContactsCollection}"
+                     SelectionChanged="ContactsListBoxChanged">
+                    <!--You can change item template for your own style-->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <Border Background="#623ed0" CornerRadius="0 50 0 0"
+                    VerticalAlignment="Top" Visibility="Collapsed"
+                    x:Name="MenuBorder" Grid.Row="1" Height="600">
                 <DockPanel>
                     <!--Menu Profile-->
                     <Border Width="80" Height="80" Padding="3" Background="White" CornerRadius="100"
                             DockPanel.Dock="Top" HorizontalAlignment="Left" Margin="30 -30 0 0">
-                        <!--<Ellipse>
+                        <Ellipse>
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="DefaultImage.png"/>
+                                <ImageBrush ImageSource="/DefaultImage.png"/>
                             </Ellipse.Fill>
-                        </Ellipse>-->
+                        </Ellipse>
                     </Border>
 
                     <!--Menu Titles-->
-                    <TextBlock Text="Profile Name" Foreground="White" FontWeight="SemiBold"
-                               DockPanel.Dock="Top" TextAlignment="Center" Margin="-55 15 0 10"/>
+                    <TextBlock Text="{Binding Name}" Foreground="White" FontWeight="SemiBold"
+                               DockPanel.Dock="Top" TextAlignment="Center" Margin="-55 15 0 10"
+                               x:Name="UserNameInMenu" FontSize="30"/>
                     <TextBlock Text="About me" Foreground="White" FontWeight="SemiBold"
                                DockPanel.Dock="Top" TextAlignment="Left" Margin="5 5 0 10"/>
 
@@ -74,10 +120,11 @@
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top">
-                        <Button Style="{StaticResource menuButton}">
+                        <Button Style="{StaticResource menuButton}"
+                                Click="DisplayContactAdd">
                             <StackPanel Orientation="Horizontal">
                                 <Icon:PackIconMaterial Kind="AccountMultipleOutline" Style="{StaticResource menuButtonIcon}"/>
-                                <TextBlock Text="Contacts"/>
+                                <TextBlock Text="Add contact"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -91,7 +138,9 @@
                         </Button>
                     </StackPanel>
 
-                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" Margin="15 0 15 20">
+                    <Button Style="{StaticResource menuButton}" VerticalAlignment="Bottom" 
+                            DockPanel.Dock="Bottom" Margin="15 0 15 20" x:Name="LogOutButton"
+                            Click="LogOut_ButtonClick">
                         <StackPanel Orientation="Horizontal">
                             <Icon:PackIconMaterial Kind="Logout" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Logout"/>
@@ -106,11 +155,31 @@
                     </Button>
                 </DockPanel>
             </Border>
+        </Grid>
 
+        <!--Add contact border-->
 
+        <Border Background="AliceBlue" Grid.Column="1" Height="300"
+                Visibility="Collapsed" x:Name="BorderContact">
+            <Grid>
+                <TextBox Height="50" Width="300" VerticalAlignment="Top"
+                         x:Name="txtUserContact"/>
+                <Button Content="Add Contact" Height="100" Width="100" 
+                        Click="AddNewContact"/>
+            </Grid>
+        </Border>
 
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            
             <!--Search Textbox-->
-            <Grid Width="320" HorizontalAlignment="Left" Margin="418,4,0,678" Grid.Column="1">
+            
+            <Grid Width="320" HorizontalAlignment="Right" Margin="0,30,100,0"
+                  Height="30" VerticalAlignment="Top">
                 <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
                            Panel.ZIndex="1" Text="Search here ..."
                            Visibility="Visible"/>
@@ -119,51 +188,40 @@
                 <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
                                        Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
             </Grid>
+            
+            <!--Chat-->
+            
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="500"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
+                <Grid>
+                    <ListBox x:Name="ChatWindowListBox" Height="500"
+                     ItemsSource="{Binding MessagesCollection}" Style="{StaticResource ListBoxStyleChat}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Message}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
 
+                <Grid Grid.Row="1" Margin="10">
+                    <Button Height="50" Width="50" HorizontalAlignment="Right"
+                    Content="Send" VerticalAlignment="Bottom"
+                    Click="SendMessage"></Button>
 
-
-
-
-
-
-        </Grid>
-    </Border>
-</Window>
-
-
-<!-- Chat -->
-<!--<Grid>
-            <ListBox x:Name="ChatWindowListBox" Style="{StaticResource ListBoxStyleChat}"
-                     ItemsSource="{Binding MessagesCollection}" HorizontalAlignment="Left" Height="593" Margin="540,54,0,0" VerticalAlignment="Top" Width="540">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Message}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Grid>-->
-
-<!-- Window for typing -->
-<!--<TextBox Style="{StaticResource TextBoxStyle}" x:Name="txtTextBoxMessage" Width="510"/>
-        <Button Height="50" Width="50" HorizontalAlignment="Right"
-                Content="Send" VerticalAlignment="Bottom"
-                Click="SendMessage"></Button>
-
-        <Button Height="50" Width="50" Content="Add new Contact"
-                Click="DisplayContactAdd" Margin="1030,0,0,654"/>
-
-        <Border Height="200" Width="200" Background="AliceBlue" 
-                VerticalAlignment="Bottom" Visibility="Collapsed"
-                x:Name="BorderContact">
-            <Grid>
-                <Label Content="Add new user contact"></Label>
-                <TextBox x:Name="txtUserContact" Height="50"></TextBox>
-                <Button Height="50" Width="50" Content="Add contact"
-                        VerticalAlignment="Bottom" Click="AddNewContact"/>
+                    <TextBox x:Name="txtTextBoxMessage"
+                     VerticalAlignment="Bottom" Margin="10" Width="500"/>
+                </Grid>
             </Grid>
-        </Border>
-    </Grid>-->
+            
+        </Grid>
+
+    </Grid>
+</Window>
 
 
 

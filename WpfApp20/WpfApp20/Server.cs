@@ -25,16 +25,14 @@ namespace WpfApp20
         {
             if (!client.Connected)
             {
-                client.Connect("127.0.0.1", 7890);
-                //packet = new PacketReader(client.GetStream());
+                client.Connect("127.0.0.1", 7891);
+                packet = new PacketReader(client.GetStream());
 
                 var connectPacket = new PacketBuilder();
                 connectPacket.WriteOpCode(0);
                 connectPacket.WriteString(username);
                 client.Client.Send(connectPacket.GetPacketBytes());
 
-
-                packet = new PacketReader(client.GetStream());
                 ReadPackets();
             }
         }

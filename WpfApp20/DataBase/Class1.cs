@@ -22,7 +22,7 @@ namespace DataBase
         {
             if (!Database.CanConnect())
             {
-                Database.EnsureDeleted();
+                //Database.EnsureDeleted();
                 Database.EnsureCreated();
             }
         }

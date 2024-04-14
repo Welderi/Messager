@@ -57,7 +57,7 @@ namespace WpfApp20
 
             if (dataBaseDbContext.CheckUserPassword(login, pass) && dataBaseDbContext.CheckUserExists(login)) 
             {
-                FirstPage firstPage = new FirstPage();
+                FirstPage firstPage = new FirstPage(dataBaseDbContext.GetId(login));
                 firstPage.ReceiveId(dataBaseDbContext.GetId(login));
                 firstPage.Show();
                 this.Close();

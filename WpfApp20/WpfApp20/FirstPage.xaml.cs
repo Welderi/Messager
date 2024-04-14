@@ -26,22 +26,33 @@ namespace WpfApp20
         Server server;
         public static int userId;
         static int recId;
-        public FirstPage()
+        public FirstPage(int id)
         {
             InitializeComponent();
 
-            //ContactsListBox.DataContext = chatsList;
+            userId = id;
 
-            //ChatWindowListBox.DataContext = chatWindow;
+            InitializeAsync();
+
+            InitializeElements();
+
+            ContactsListBox.DataContext = chatsList;
+
+            ChatWindowListBox.DataContext = chatWindow;
+        }
+        void InitializeElements()
+        {
+            var user = data.Users.Where(u => u.UserID == userId).FirstOrDefault();
+            UserNameInMenu.DataContext = new NameObject(user.Name);
         }
         private void InitializeAsync()
         {
             server = new Server();
             var user = data.Users.FirstOrDefault(u => u.UserID == userId);
+            server.ConnectToServer(user.Name);
             server.connectedEvent += UserConnected;
             server.messageReceivedEvent += MessageReceived;
             server.UserDisconnectedEvent += UserDisconnected;
-            server.ConnectToServer(user.Name);
         }
         void UserConnected()
         {
@@ -54,6 +65,7 @@ namespace WpfApp20
             {
                 chatWindow.AddItem(new ChatItem { Message = msg });
             });
+            MessageBox.Show("Here");
         }
         void UserDisconnected()
         {
@@ -63,55 +75,51 @@ namespace WpfApp20
         {
             userId = id;
             chatsList.AddContactsFromDatabase(id);
-
-            InitializeAsync();
         }
         public void DisplayContactAdd(object obj, RoutedEventArgs arg)
         {
-            //BorderContact.Visibility = Visibility.Visible;
+            BorderContact.Visibility = (BorderContact.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
         }
         public void AddNewContact(object obj, RoutedEventArgs arg)
         {
-            //if (data.CheckUserExists(txtUserContact.Text))
-            //{
-            //    var user = data.Users.FirstOrDefault(u => u.Name == txtUserContact.Text);
-            //    data.AddToContacts(userId, user.UserID);
-            //    chatsList.AddItem(new ContactItem { Name = user.Name });
-            //}
-            //else
-            //{
-            //    MessageBox.Show("This user doesnt exist");
-            //}
+            if (data.CheckUserExists(txtUserContact.Text))
+            {
+                var user = data.Users.FirstOrDefault(u => u.Name == txtUserContact.Text);
+                data.AddToContacts(userId, user.UserID);
+                chatsList.AddItem(new ContactItem { Name = user.Name });
+            }
+            else
+            {
+                MessageBox.Show("This user doesnt exist");
+            }
         }
         public void SendMessage(object obj, RoutedEventArgs arg)
         {
-            //server.SendMessageToServer(txtTextBoxMessage.Text);
-            //data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
-            ////chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
-            //txtTextBoxMessage.Clear();
+            server.SendMessageToServer(txtTextBoxMessage.Text);
+            data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
+            //chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
+            txtTextBoxMessage.Clear();
         }
         public void ContactsListBoxChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (ContactsListBox.SelectedItem != null)
-            //{
-            //    ContactItem selectedContact = (ContactItem)ContactsListBox.SelectedItem;
-            //    int selectedUserId = data.GetId(selectedContact.Name);
-            //    recId = selectedUserId;
-            //    chatWindow.DisplayConversation(selectedUserId, userId);
-            //}
+            if (ContactsListBox.SelectedItem != null)
+            {
+                ContactItem selectedContact = (ContactItem)ContactsListBox.SelectedItem;
+                int selectedUserId = data.GetId(selectedContact.Name);
+                recId = selectedUserId;
+                chatWindow.DisplayConversation(selectedUserId, userId);
+            }
         }
-        public void Border_MouseLeftButtonDown(object obj, RoutedEventArgs arg)
+        private void LogOut_ButtonClick(object sender, RoutedEventArgs e)
         {
-
+            LoginWindow lw = new LoginWindow();
+            lw.Show();
+            this.Close();
         }
-        public void Border_MouseDown(object obj, RoutedEventArgs arg)
+        public void Menu_ButtonClick(object sender, RoutedEventArgs arg)
         {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
+            MenuBorder.Visibility = (MenuBorder.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+            
         }
     }
 }
