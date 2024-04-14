@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Net;
+using System.Windows;
+using System.Windows.Controls;
 using System.Net.Sockets;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,61 +10,41 @@ using System.Threading.Tasks;
 
 namespace WpfApp20
 {
-    class Server
+    public class Program
     {
+        public event EventHandler<string> MessageReceived;
+        static string UserId;
         TcpClient client;
-        public PacketReader packet;
+        NetworkStream stream;
 
-        public event Action connectedEvent;
-        public event Action messageReceivedEvent;
-        public event Action UserDisconnectedEvent;
-        public Server()
+        public Program(string userId)
         {
-            client = new TcpClient();
+            UserId = userId;
+            client = new TcpClient("localhost", 8888);
+            stream = client.GetStream();
+            byte[] clientIdBytes = Encoding.ASCII.GetBytes(UserId);
+            stream.Write(clientIdBytes, 0, clientIdBytes.Length);
+            Task.Run(async () => await ReceiveMessages());
         }
 
-        public void ConnectToServer(string username)
+        public async Task SendMessage(string recId, string msg)
         {
-            if (!client.Connected)
+            byte[] messageBytes = Encoding.ASCII.GetBytes(recId + "|" + msg);
+            await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
+        }
+
+        private async Task ReceiveMessages()
+        {
+            while (true)
             {
-                client.Connect("127.0.0.1", 7891);
-                packet = new PacketReader(client.GetStream());
-
-                var connectPacket = new PacketBuilder();
-                connectPacket.WriteOpCode(0);
-                connectPacket.WriteString(username);
-                client.Client.Send(connectPacket.GetPacketBytes());
-
-                ReadPackets();
-            }
-        }
-        void ReadPackets()
-        {
-            Task.Run(() => {
-                while (true)
+                byte[] buffer = new byte[1024];
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                if (!string.IsNullOrEmpty(message))
                 {
-                    var opcode = packet.ReadByte();
-                    switch (opcode)
-                    {
-                        case 1:
-                            connectedEvent?.Invoke();
-                            break;
-                        case 5:
-                            messageReceivedEvent?.Invoke();
-                            break;
-                        case 10:
-                            UserDisconnectedEvent?.Invoke();
-                            break;
-                    }
+                    MessageReceived?.Invoke(this, message);
                 }
-            });
-        }
-        public void SendMessageToServer(string msg)
-        {
-            var messagePacket = new PacketBuilder();
-            messagePacket.WriteOpCode(5);
-            messagePacket.WriteString(msg);
-            client.Client.Send(messagePacket.GetPacketBytes());
+            }
         }
     }
 }

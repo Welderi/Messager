@@ -5724,11 +5724,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\ServerProject\\ServerProject.csproj",
+      "projectUniqueName": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\ServerProject\\ServerProject.csproj",
       "projectName": "ServerProject",
-      "projectPath": "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\ServerProject\\ServerProject.csproj",
+      "projectPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\ServerProject\\ServerProject.csproj",
       "packagesPath": "C:\\Users\\lizak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\ServerProject\\obj\\",
+      "outputPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\ServerProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lizak\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5745,8 +5745,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\DataBase\\DataBase.csproj": {
-              "projectPath": "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\DataBase\\DataBase.csproj"
+            "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\DataBase\\DataBase.csproj": {
+              "projectPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\DataBase\\DataBase.csproj"
             }
           }
         }

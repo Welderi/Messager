@@ -23,7 +23,7 @@ namespace WpfApp20
         ChatsList chatsList = new ChatsList();
         ChatWindow chatWindow = new ChatWindow();
         DataBaseDbContext data = new DataBaseDbContext();
-        Server server;
+        Program program;
         public static int userId;
         static int recId;
         public FirstPage(int id)
@@ -32,44 +32,27 @@ namespace WpfApp20
 
             userId = id;
 
-            InitializeAsync();
-
             InitializeElements();
+
+            program = new Program(userId.ToString());
+
+            program.MessageReceived += OnMessageReceived;
 
             ContactsListBox.DataContext = chatsList;
 
             ChatWindowListBox.DataContext = chatWindow;
         }
+        private void OnMessageReceived(object sender, string message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                chatWindow.AddItem(new ChatItem { Message = message});
+            });
+        }
         void InitializeElements()
         {
             var user = data.Users.Where(u => u.UserID == userId).FirstOrDefault();
             UserNameInMenu.DataContext = new NameObject(user.Name);
-        }
-        private void InitializeAsync()
-        {
-            server = new Server();
-            var user = data.Users.FirstOrDefault(u => u.UserID == userId);
-            server.ConnectToServer(user.Name);
-            server.connectedEvent += UserConnected;
-            server.messageReceivedEvent += MessageReceived;
-            server.UserDisconnectedEvent += UserDisconnected;
-        }
-        void UserConnected()
-        {
-
-        }
-        void MessageReceived()
-        {
-            var msg = server.packet.ReadMessage();
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                chatWindow.AddItem(new ChatItem { Message = msg });
-            });
-            MessageBox.Show("Here");
-        }
-        void UserDisconnected()
-        {
-            var uid = server.packet.ReadMessage();
         }
         public void ReceiveId(int id)
         {
@@ -93,11 +76,11 @@ namespace WpfApp20
                 MessageBox.Show("This user doesnt exist");
             }
         }
-        public void SendMessage(object obj, RoutedEventArgs arg)
+        public async void SendMessage(object obj, RoutedEventArgs arg)
         {
-            server.SendMessageToServer(txtTextBoxMessage.Text);
+            await program.SendMessage(recId.ToString(), txtTextBoxMessage.Text);
+            chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
             data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
-            //chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
             txtTextBoxMessage.Clear();
         }
         public void ContactsListBoxChanged(object sender, SelectionChangedEventArgs e)

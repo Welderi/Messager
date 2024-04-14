@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rCODj/blPU22Acg4755cw0Y4KJpguwLND1o34qIf6dJYnMVBCKrK/PL0/0SIMeobM9UO1fGStpNlbqwEEwND+Q==",
+  "dgSpecHash": "TeHtDrFRjhm+S8bG22WxE6nNH56qjKVHEnJEPTiDfbUbuTrBxCWIrgejfeaVq91wZfdT7f9qgDBBaukAgloW/g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lizak\\source\\repos\\MessagerNext\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
+  "projectFilePath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\WpfApp20\\WpfApp20.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lizak\\.nuget\\packages\\mahapps.metro.iconpacks.material\\4.11.0\\mahapps.metro.iconpacks.material.4.11.0.nupkg.sha512",
     "C:\\Users\\lizak\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
