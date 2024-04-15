@@ -1,5 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Globalization;
+using System.Windows;
+using DataBase;
 
 namespace WpfApp20
 {
@@ -23,6 +29,22 @@ namespace WpfApp20
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+    public class InverseBooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool boolValue)
+            {
+                return boolValue ? Visibility.Collapsed : Visibility.Visible;
+            }
+            return Visibility.Visible; 
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

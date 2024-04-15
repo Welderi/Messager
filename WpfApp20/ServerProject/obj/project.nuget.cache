@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EpYzndCCUGXLW1v1TXTnand4btj77JJcJL8jx2U/rFcvm5DAGUkKbwranvJcOR6j2INNO+LEGuh2gzZ6AB4D2A==",
+  "dgSpecHash": "fcFlLvc2a9ki5qtWnoZCAxq0hs9bHRfhXTmSi2eu40r2ysDWQt4fFYSvjjtniAn/T3ftyJd2c6giLEcPd8EbyA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\ServerProject\\ServerProject.csproj",
+  "projectFilePath": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\ServerProject\\ServerProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lizak\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\lizak\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",

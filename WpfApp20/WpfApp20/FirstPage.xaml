@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Height="720" Width="1080" WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <local:InverseBooleanToVisibilityConverter x:Key="Converter"/>
         <!-- For chat -->
         <Style x:Key="ListBoxStyleChat" TargetType="ListBox">
             <Setter Property="BorderThickness" Value="0"/>
@@ -130,10 +131,10 @@
                     </StackPanel>
 
                     <StackPanel DockPanel.Dock="Top">
-                        <Button Style="{StaticResource menuButton}">
+                        <Button Style="{StaticResource menuButton}" Click="CreateGroup_ClickButton">
                             <StackPanel Orientation="Horizontal">
                                 <Icon:PackIconMaterial Kind="Message" Style="{StaticResource menuButtonIcon}"/>
-                                <TextBlock Text="chats"/>
+                                <TextBlock Text="Create Group"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
@@ -157,17 +158,7 @@
             </Border>
         </Grid>
 
-        <!--Add contact border-->
 
-        <Border Background="AliceBlue" Grid.Column="1" Height="300"
-                Visibility="Collapsed" x:Name="BorderContact">
-            <Grid>
-                <TextBox Height="50" Width="300" VerticalAlignment="Top"
-                         x:Name="txtUserContact"/>
-                <Button Content="Add Contact" Height="100" Width="100" 
-                        Click="AddNewContact"/>
-            </Grid>
-        </Border>
 
         <Grid Grid.Column="1">
 
@@ -175,9 +166,9 @@
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
+
             <!--Search Textbox-->
-            
+
             <Grid Width="320" HorizontalAlignment="Right" Margin="0,30,100,0"
                   Height="30" VerticalAlignment="Top">
                 <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
@@ -188,9 +179,9 @@
                 <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
                                        Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
             </Grid>
-            
+
             <!--Chat-->
-            
+
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="500"/>
@@ -217,7 +208,81 @@
                      VerticalAlignment="Bottom" Margin="10" Width="500"/>
                 </Grid>
             </Grid>
-            
+
+            <Grid Grid.Row="1">
+                <!--Add contact border-->
+
+                <Border Background="AliceBlue" Grid.Column="1" Height="300"
+                Visibility="Collapsed" x:Name="BorderContact">
+                    <Grid>
+                        <TextBox Height="50" Width="300" VerticalAlignment="Top"
+                         x:Name="txtUserContact"/>
+                        <Button Content="Add Contact" Height="100" Width="100" 
+                        Click="AddNewContact"/>
+                    </Grid>
+                </Border>
+
+                <!--Add group border-->
+
+                <Border Background="AliceBlue" Grid.Column="1" Height="300"
+                        Visibility="Collapsed" x:Name="GroupCreateBorder">
+                    <Grid>
+                        <Label Content="Name of Group" HorizontalAlignment="Center"
+                               Margin="0, 0, 200, 0"/>
+                        <TextBox x:Name="GroupName"
+                                 Height="50" Width="100" VerticalAlignment="Top"/>
+                        <Button Content="Create Group" Click="CreateGroup"
+                                Height="50" Width="50"/>
+                        <ListBox Height="300" Width="200" 
+                                HorizontalAlignment="Left" 
+                                x:Name="AllContactsInGroupCreating" 
+                                ItemsSource="{Binding ContactsCollection}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" 
+                                                    HorizontalAlignment="Left"
+                                                    Visibility="{Binding IsGroup, Converter={StaticResource Converter}}" />
+                                        <Button Content="+"
+                                                Background="Red" 
+                                                Margin="10, 0 ,0, 0" 
+                                                Click="RelocateContactInGroup">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsGroup}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <ListBox Height="300" Width="200" 
+                                 HorizontalAlignment="Right" x:Name="ContactsInGroup" MouseDoubleClick="RemoveContactFromGroup">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Name}" />
+                                        <Button Content="Remove"
+                                                Background="Red" Margin="50, 0 ,0, 0" 
+                                                Click="RemoveContactFromGroup"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Label Content="Description" HorizontalAlignment="Center"
+                               Margin="0, 0, 200, 0" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="GroupDesc"
+                                 Height="50" Width="100" VerticalAlignment="Bottom"/>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
 
     </Grid>

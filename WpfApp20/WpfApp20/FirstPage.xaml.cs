@@ -20,12 +20,19 @@ namespace WpfApp20
     /// </summary>
     public partial class FirstPage : Window
     {
+
         ChatsList chatsList = new ChatsList();
+
         ChatWindow chatWindow = new ChatWindow();
+
         DataBaseDbContext data = new DataBaseDbContext();
+
         Program program;
+
         public static int userId;
+
         static int recId;
+
         public FirstPage(int id)
         {
             InitializeComponent();
@@ -38,17 +45,15 @@ namespace WpfApp20
 
             program.MessageReceived += OnMessageReceived;
 
+            AllContactsInGroupCreating.DataContext = chatsList;
+
             ContactsListBox.DataContext = chatsList;
 
             ChatWindowListBox.DataContext = chatWindow;
         }
-        private void OnMessageReceived(object sender, string message)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                chatWindow.AddItem(new ChatItem { Message = message});
-            });
-        }
+
+        //         -- Initialization --
+
         void InitializeElements()
         {
             var user = data.Users.Where(u => u.UserID == userId).FirstOrDefault();
@@ -59,23 +64,57 @@ namespace WpfApp20
             userId = id;
             chatsList.AddContactsFromDatabase(id);
         }
-        public void DisplayContactAdd(object obj, RoutedEventArgs arg)
+        private void OnMessageReceived(object sender, string message)
         {
-            BorderContact.Visibility = (BorderContact.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                chatWindow.AddItem(new ChatItem { Message = message});
+            });
         }
+
+        //         -- Work of Buttons --
+
+        //        1.  Buttons In Menu
+
         public void AddNewContact(object obj, RoutedEventArgs arg)
         {
             if (data.CheckUserExists(txtUserContact.Text))
             {
                 var user = data.Users.FirstOrDefault(u => u.Name == txtUserContact.Text);
                 data.AddToContacts(userId, user.UserID);
-                chatsList.AddItem(new ContactItem { Name = user.Name });
+                chatsList.AddItem(new ContactItem { Name = user.Name, IsGroup = false });
             }
             else
             {
                 MessageBox.Show("This user doesnt exist");
             }
         }
+        private void LogOut_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            LoginWindow lw = new LoginWindow();
+            lw.Show();
+            this.Close();
+        }
+        public void CreateGroup(object sender, RoutedEventArgs arg)
+        {
+            if (ContactsInGroup.Items.Count > 0)
+            {
+                data.AddToGroups(GroupName.Text, GroupDesc.Text, DateTime.Now, userId);
+                foreach (var item in ContactsInGroup.Items)
+                {
+                    ContactItem contact = (ContactItem)item;
+                    var user = data.Users.FirstOrDefault(u => u.Name == contact.Name);
+                    var group = data.Groups.FirstOrDefault(g => g.CreatorID == userId);
+                    data.AddToGroupMemberships(user.UserID, group.GroupID, "Reader" ,DateTime.Now);
+                }
+                chatsList.AddItem(new ContactItem { Name = GroupName.Text, IsGroup = true });
+            }
+            else
+            {
+                MessageBox.Show("Select contacts to adding");
+            }
+        }
+        //         2. Another
         public async void SendMessage(object obj, RoutedEventArgs arg)
         {
             await program.SendMessage(recId.ToString(), txtTextBoxMessage.Text);
@@ -83,6 +122,31 @@ namespace WpfApp20
             data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
             txtTextBoxMessage.Clear();
         }
+
+        //         3. Buttons in List
+
+        public void RemoveContactFromGroup(object s, RoutedEventArgs arg)
+        {
+            Button button = (Button)s;
+            ContactItem selectedContact = (ContactItem)button.DataContext;
+            ContactsInGroup.Items.Remove(selectedContact);
+        }
+        public void RelocateContactInGroup(object s, RoutedEventArgs arg)
+        {
+            Button button = (Button)s; 
+            ContactItem selectedContact = (ContactItem)button.DataContext;
+            if (selectedContact.IsGroup == false)
+            {
+                ContactsInGroup.Items.Add(selectedContact);
+            }
+            else
+            {
+                MessageBox.Show("You can not choose group");
+            }
+        }
+
+        //         -- Work with Lists --
+
         public void ContactsListBoxChanged(object sender, SelectionChangedEventArgs e)
         {
             if (ContactsListBox.SelectedItem != null)
@@ -93,16 +157,20 @@ namespace WpfApp20
                 chatWindow.DisplayConversation(selectedUserId, userId);
             }
         }
-        private void LogOut_ButtonClick(object sender, RoutedEventArgs e)
+
+        //         -- Interface work --
+        public void DisplayContactAdd(object obj, RoutedEventArgs arg)
         {
-            LoginWindow lw = new LoginWindow();
-            lw.Show();
-            this.Close();
+            BorderContact.Visibility = (BorderContact.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
         }
         public void Menu_ButtonClick(object sender, RoutedEventArgs arg)
         {
             MenuBorder.Visibility = (MenuBorder.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
             
+        }
+        public void CreateGroup_ClickButton(object ob, RoutedEventArgs arg)
+        {
+            GroupCreateBorder.Visibility = (GroupCreateBorder.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }

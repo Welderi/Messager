@@ -31,6 +31,7 @@ namespace WpfApp20
             {
                 var contactsForConcreteUser = dbContext.Contacts.Where(c => c.ConcreteUserID == id).ToList();
                 var contactsForConcreteUser1 = dbContext.Contacts.Where(c => c.UserID == id).ToList();
+                var contactsForGroup = dbContext.GroupMemberships.Where(c => c.MemberID == id).ToList();
 
                 ContactsCollection.Clear();
 
@@ -38,7 +39,7 @@ namespace WpfApp20
                 {
                     var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.UserID);
 
-                    var contactItem = new ContactItem { Name = user.Name };
+                    var contactItem = new ContactItem { Name = user.Name,  IsGroup = false };
 
                     AddItem(contactItem);
                 }
@@ -46,7 +47,15 @@ namespace WpfApp20
                 {
                     var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.ConcreteUserID);
 
-                    var contactItem = new ContactItem { Name = user.Name };
+                    var contactItem = new ContactItem { Name = user.Name, IsGroup = false };
+
+                    AddItem(contactItem);
+                }
+                foreach (var contact in contactsForGroup)
+                {
+                    var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.MemberID);
+
+                    var contactItem = new ContactItem { Name = user.Name, IsGroup = true };
 
                     AddItem(contactItem);
                 }
@@ -57,6 +66,17 @@ namespace WpfApp20
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        bool isGroup;
+
+        public bool IsGroup
+        {
+            get { return isGroup; }
+            set
+            {
+                isGroup = value;
+                OnPropertyChanged(nameof(IsGroup));
+            }
+        }
         private string name;
         public string Name
         {

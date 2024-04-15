@@ -5706,11 +5706,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\DataBase\\DataBase.csproj",
+      "projectUniqueName": "C:\\Users\\lizak\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
       "projectName": "DataBase",
-      "projectPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\DataBase\\DataBase.csproj",
+      "projectPath": "C:\\Users\\lizak\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
       "packagesPath": "C:\\Users\\lizak\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lizak\\Source\\Repos\\MessagerTest\\WpfApp20\\DataBase\\obj\\",
+      "outputPath": "C:\\Users\\lizak\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\lizak\\AppData\\Roaming\\NuGet\\NuGet.Config",
