@@ -41,6 +41,18 @@ namespace WpfApp20
                 }
             }
         }
+        public void DisplayGroupConversation(int GroupId)
+        {
+            using (var dbContext = new DataBaseDbContext())
+            {
+                var gr = dbContext.GroupMemberships.Where(m => m.GroupGMID == GroupId).ToList();
+
+                //foreach ()
+                //{
+
+                //}
+            }
+        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

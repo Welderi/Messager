@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataBase;
 
 namespace WpfApp20
 {
     public class Program
     {
         public event EventHandler<string> MessageReceived;
+        DataBaseDbContext data = new DataBaseDbContext();
         static string UserId;
         TcpClient client;
         NetworkStream stream;
@@ -32,7 +34,18 @@ namespace WpfApp20
             byte[] messageBytes = Encoding.ASCII.GetBytes(recId + "|" + msg);
             await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
         }
+        public async Task SendMessageToGroup(int groupId, string msg)
+        {
+            var groupMembers = data.GroupMemberships
+                               .Where(g => g.GroupGMID == groupId)
+                               .Select(g => g.UserGMID)
+                               .ToList();
 
+            foreach (var memberId in groupMembers)
+            {
+                await SendMessage(memberId.ToString(), msg);
+            }
+        }
         private async Task ReceiveMessages()
         {
             while (true)

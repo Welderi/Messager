@@ -10,6 +10,7 @@ namespace ServerProject
     class Program
     {
         static Dictionary<string, TcpClient> clients = new Dictionary<string, TcpClient>();
+        static Dictionary<int, List<TcpClient>> groupClients = new Dictionary<int, List<TcpClient>>();
 
         static void Main(string[] args)
         {
@@ -50,13 +51,20 @@ namespace ServerProject
                     else
                     {
                         string[] data = message.Split('|');
-                        if (data.Length == 2 && clients.ContainsKey(data[0]))
+                        if (data.Length == 2)
                         {
-                            TcpClient destClient = clients[data[0]];
-                            NetworkStream destStream = destClient.GetStream();
-                            byte[] bytesToSend = Encoding.ASCII.GetBytes(data[1]);
-                            destStream.Write(bytesToSend, 0, bytesToSend.Length);
-                            destStream.Flush();
+                            string[] recipients = data[0].Split(',');
+                            foreach (string recipientId in recipients)
+                            {
+                                if (clients.ContainsKey(recipientId))
+                                {
+                                    TcpClient destClient = clients[recipientId];
+                                    NetworkStream destStream = destClient.GetStream();
+                                    byte[] bytesToSend = Encoding.ASCII.GetBytes(data[1]);
+                                    destStream.Write(bytesToSend, 0, bytesToSend.Length);
+                                    destStream.Flush();
+                                }
+                            }
                         }
                     }
                 }
@@ -73,6 +81,20 @@ namespace ServerProject
                     Console.WriteLine("Client disconnected: " + clientId);
                 }
                 client.Close();
+            }
+        }
+
+        static void BroadcastToGroup(int groupId, string message)
+        {
+            if (groupClients.ContainsKey(groupId))
+            {
+                foreach (TcpClient client in groupClients[groupId])
+                {
+                    NetworkStream stream = client.GetStream();
+                    byte[] bytesToSend = Encoding.ASCII.GetBytes(message);
+                    stream.Write(bytesToSend, 0, bytesToSend.Length);
+                    stream.Flush();
+                }
             }
         }
     }

@@ -117,10 +117,21 @@ namespace WpfApp20
         //         2. Another
         public async void SendMessage(object obj, RoutedEventArgs arg)
         {
-            await program.SendMessage(recId.ToString(), txtTextBoxMessage.Text);
-            chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
-            data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
-            txtTextBoxMessage.Clear();
+            var con = (ContactItem)ContactsListBox.SelectedItem; 
+            if (con.IsGroup == true)
+            {
+                var g = data.Groups.FirstOrDefault(g => g.Name == con.Name);
+                await program.SendMessageToGroup(g.GroupID, txtTextBoxMessage.Text);
+                chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
+                txtTextBoxMessage.Clear();
+            }
+            else
+            {
+                await program.SendMessage(recId.ToString(), txtTextBoxMessage.Text);
+                chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
+                data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
+                txtTextBoxMessage.Clear();
+            }
         }
 
         //         3. Buttons in List
@@ -152,9 +163,16 @@ namespace WpfApp20
             if (ContactsListBox.SelectedItem != null)
             {
                 ContactItem selectedContact = (ContactItem)ContactsListBox.SelectedItem;
-                int selectedUserId = data.GetId(selectedContact.Name);
-                recId = selectedUserId;
-                chatWindow.DisplayConversation(selectedUserId, userId);
+                if (selectedContact.IsGroup == true)
+                {
+
+                }
+                else
+                {
+                    int selectedUserId = data.GetId(selectedContact.Name);
+                    recId = selectedUserId;
+                    chatWindow.DisplayConversation(selectedUserId, userId);
+                }
             }
         }
 

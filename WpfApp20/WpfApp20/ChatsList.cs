@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Text;
 using System.Threading.Tasks;
 using DataBase;
@@ -29,11 +30,30 @@ namespace WpfApp20
         {
             using (var dbContext = new DataBaseDbContext())
             {
+                ContactsCollection.Clear();
+
                 var contactsForConcreteUser = dbContext.Contacts.Where(c => c.ConcreteUserID == id).ToList();
                 var contactsForConcreteUser1 = dbContext.Contacts.Where(c => c.UserID == id).ToList();
-                var contactsForGroup = dbContext.GroupMemberships.Where(c => c.MemberID == id).ToList();
 
-                ContactsCollection.Clear();
+                if (dbContext.GroupMemberships.FirstOrDefault(c => c.UserGMID == id) != null)
+                {
+                    var contactsForGroup = dbContext.GroupMemberships.FirstOrDefault(c => c.UserGMID == id);
+
+                    var user = dbContext.Groups.FirstOrDefault(u => u.GroupID == contactsForGroup.GroupGMID);
+
+                    var contactItem = new ContactItem { Name = user.Name, IsGroup = true };
+
+                    AddItem(contactItem);
+                }
+
+                if (dbContext.Groups.FirstOrDefault(c => c.CreatorID == id) != null)
+                {
+                    var gr = dbContext.Groups.FirstOrDefault(c => c.CreatorID == id);
+
+                    var contactItem = new ContactItem { Name = gr.Name, IsGroup = true };
+
+                    AddItem(contactItem);
+                }
 
                 foreach (var contact in contactsForConcreteUser)
                 {
@@ -51,14 +71,8 @@ namespace WpfApp20
 
                     AddItem(contactItem);
                 }
-                foreach (var contact in contactsForGroup)
-                {
-                    var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.MemberID);
 
-                    var contactItem = new ContactItem { Name = user.Name, IsGroup = true };
 
-                    AddItem(contactItem);
-                }
             }
         }
     }
