@@ -9,7 +9,8 @@
       "WpfApp20/1.0.0": {
         "dependencies": {
           "DataBase": "1.0.0",
-          "MahApps.Metro.IconPacks.Material": "4.11.0"
+          "MahApps.Metro.IconPacks.Material": "4.11.0",
+          "ServerProject": "1.0.0"
         },
         "runtime": {
           "WpfApp20.dll": {}
@@ -984,6 +985,14 @@
         "runtime": {
           "DataBase.dll": {}
         }
+      },
+      "ServerProject/1.0.0": {
+        "dependencies": {
+          "DataBase": "1.0.0"
+        },
+        "runtime": {
+          "ServerProject.dll": {}
+        }
       }
     }
   },
@@ -1659,6 +1668,11 @@
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
     "DataBase/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ServerProject/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

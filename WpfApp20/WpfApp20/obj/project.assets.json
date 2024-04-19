@@ -1508,6 +1508,19 @@
         "runtime": {
           "bin/placeholder/DataBase.dll": {}
         }
+      },
+      "ServerProject/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "DataBase": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/ServerProject.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/ServerProject.dll": {}
+        }
       }
     }
   },
@@ -5782,12 +5795,18 @@
       "type": "project",
       "path": "../DataBase/DataBase.csproj",
       "msbuildProject": "../DataBase/DataBase.csproj"
+    },
+    "ServerProject/1.0.0": {
+      "type": "project",
+      "path": "../ServerProject/ServerProject.csproj",
+      "msbuildProject": "../ServerProject/ServerProject.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net5.0-windows7.0": [
       "DataBase >= 1.0.0",
-      "MahApps.Metro.IconPacks.Material >= 4.11.0"
+      "MahApps.Metro.IconPacks.Material >= 4.11.0",
+      "ServerProject >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -5819,6 +5838,9 @@
           "projectReferences": {
             "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj": {
               "projectPath": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj"
+            },
+            "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\ServerProject\\ServerProject.csproj": {
+              "projectPath": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\ServerProject\\ServerProject.csproj"
             }
           }
         }

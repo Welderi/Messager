@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Windows;
+using System.Linq;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
+using DataBase;
 
 namespace ServerProject
 {
     class Program
     {
-        static Dictionary<string, TcpClient> clients = new Dictionary<string, TcpClient>();
-        static Dictionary<int, List<TcpClient>> groupClients = new Dictionary<int, List<TcpClient>>();
+        static ConcurrentDictionary<string, TcpClient> clients = new ConcurrentDictionary<string, TcpClient>();
+        static ConcurrentDictionary<int, int> groupClients = new ConcurrentDictionary<int, int>();
 
         static void Main(string[] args)
         {
@@ -18,82 +23,129 @@ namespace ServerProject
             server.Start();
             Console.WriteLine("Server started...");
 
+            using (var data = new DataBaseDbContext())
+            {
+                var list = data.GroupMemberships.ToList();
+
+                if (list != null)
+                {
+                    foreach (var item in list)
+                    {
+                        groupClients.TryAdd(item.UserGMID, item.GroupGMID);
+                    }
+                }
+
+            }
+
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClient));
-                clientThread.Start(client);
+                Task.Run(() => HandleClient(client));
             }
         }
 
-        static void HandleClient(object obj)
+        static async Task HandleClient(TcpClient client)
         {
-            TcpClient client = (TcpClient)obj;
-            NetworkStream stream = client.GetStream();
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-
-            string clientId = null;
-            string message;
-
-            try
+            using (client)
             {
-                while (true)
+                NetworkStream stream = client.GetStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+
+                string clientId = null;
+                string message;
+
+                try
                 {
-                    bytesRead = stream.Read(buffer, 0, buffer.Length);
-                    message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                    if (clientId == null)
+                    while (true)
                     {
-                        clientId = message;
-                        clients.Add(clientId, client);
-                        Console.WriteLine("Client connected with ID: " + clientId);
-                    }
-                    else
-                    {
-                        string[] data = message.Split('|');
-                        if (data.Length == 2)
+                        bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                        message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                        if (clientId == null)
                         {
-                            string[] recipients = data[0].Split(',');
-                            foreach (string recipientId in recipients)
+                            clientId = message;
+                            clients.TryAdd(clientId, client);
+                            Console.WriteLine("Client connected with ID: " + clientId);
+                        }
+                        else
+                        {
+                            if (message.StartsWith("g"))
                             {
-                                if (clients.ContainsKey(recipientId))
-                                {
-                                    TcpClient destClient = clients[recipientId];
-                                    NetworkStream destStream = destClient.GetStream();
-                                    byte[] bytesToSend = Encoding.ASCII.GetBytes(data[1]);
-                                    destStream.Write(bytesToSend, 0, bytesToSend.Length);
-                                    destStream.Flush();
-                                }
+                                int pipeIndex = message.IndexOf("|");
+                                string group = message.Substring(1, pipeIndex - 1);
+                                message = message.Substring(pipeIndex + 1);
+
+                                pipeIndex = message.IndexOf("|");
+                                string id = message.Substring(0, pipeIndex);
+                                string msg = message.Substring(pipeIndex + 1);
+                                int groupId = Convert.ToInt32(group);
+
+                                await BroadcastToGroup(groupId, id, message);
+                            }
+                            else
+                            {
+                                int pipeIndex = message.IndexOf("|");
+                                string recipientId = message.Substring(0, pipeIndex);
+                                string msg = message.Substring(pipeIndex + 1);
+
+                                
+                                //if (data.Length == 2 && message != "")
+                                //{
+                                //    string[] recipients = data[0].Split(',');
+                                //    foreach (string recipientId in recipients)
+                                //    {
+                                //        if (clients.ContainsKey(recipientId))
+                                //        {
+                                //            TcpClient destClient;
+                                //            if (clients.TryGetValue(recipientId, out destClient))
+                                //            {
+                                //                using (NetworkStream destStream = destClient.GetStream())
+                                //                {
+                                //                    byte[] bytesToSend = Encoding.ASCII.GetBytes(data[1]);
+                                //                    await destStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
+                                //                    await destStream.FlushAsync();
+                                //                }
+                                //            }
+                                //        }
+                                //    }
+                                //}
                             }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (!string.IsNullOrEmpty(clientId))
+                catch (Exception ex)
                 {
-                    clients.Remove(clientId);
-                    Console.WriteLine("Client disconnected: " + clientId);
+                    Console.WriteLine(ex.Message);
                 }
-                client.Close();
+                finally
+                {
+                    if (!string.IsNullOrEmpty(clientId))
+                    {
+                        clients.TryRemove(clientId, out _);
+                        Console.WriteLine("Client disconnected: " + clientId);
+                    }
+                }
             }
         }
 
-        static void BroadcastToGroup(int groupId, string message)
+        static async Task BroadcastToGroup(int groupId, string id, string message)
         {
             if (groupClients.ContainsKey(groupId))
             {
-                foreach (TcpClient client in groupClients[groupId])
+                var clientIdsInGroup = groupClients.Where(x => x.Value == groupId).Select(x => x.Key);
+
+                foreach (var clientId in clientIdsInGroup)
                 {
-                    NetworkStream stream = client.GetStream();
-                    byte[] bytesToSend = Encoding.ASCII.GetBytes(message);
-                    stream.Write(bytesToSend, 0, bytesToSend.Length);
-                    stream.Flush();
+                    if (clientId.ToString() != id && clients.ContainsKey(clientId.ToString()))
+                    {
+                        TcpClient destClient = clients[clientId.ToString()];
+
+                        NetworkStream destStream = destClient.GetStream();
+
+                        byte[] bytesToSend = Encoding.ASCII.GetBytes($"g{groupId}|{id}|{message}");
+                        await destStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
+                        await destStream.FlushAsync();
+                    }
                 }
             }
         }

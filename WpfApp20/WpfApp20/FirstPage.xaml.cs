@@ -100,14 +100,15 @@ namespace WpfApp20
             if (ContactsInGroup.Items.Count > 0)
             {
                 data.AddToGroups(GroupName.Text, GroupDesc.Text, DateTime.Now, userId);
+                var group = data.Groups.FirstOrDefault(g => g.CreatorID == userId);
                 foreach (var item in ContactsInGroup.Items)
                 {
                     ContactItem contact = (ContactItem)item;
                     var user = data.Users.FirstOrDefault(u => u.Name == contact.Name);
-                    var group = data.Groups.FirstOrDefault(g => g.CreatorID == userId);
                     data.AddToGroupMemberships(user.UserID, group.GroupID, "Reader" ,DateTime.Now);
                 }
                 chatsList.AddItem(new ContactItem { Name = GroupName.Text, IsGroup = true });
+                data.AddToGroupMemberships(userId, group.GroupID, "Admin", DateTime.Now);
             }
             else
             {
@@ -117,12 +118,13 @@ namespace WpfApp20
         //         2. Another
         public async void SendMessage(object obj, RoutedEventArgs arg)
         {
-            var con = (ContactItem)ContactsListBox.SelectedItem; 
+            var con = (ContactItem)ContactsListBox.SelectedItem;
             if (con.IsGroup == true)
             {
                 var g = data.Groups.FirstOrDefault(g => g.Name == con.Name);
-                await program.SendMessageToGroup(g.GroupID, txtTextBoxMessage.Text);
+                await program.SendMessageGroup(g.GroupID.ToString(),userId.ToString(), txtTextBoxMessage.Text);
                 chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
+                data.AddToMessageGroup(userId, g.GroupID, txtTextBoxMessage.Text);
                 txtTextBoxMessage.Clear();
             }
             else
@@ -130,8 +132,8 @@ namespace WpfApp20
                 await program.SendMessage(recId.ToString(), txtTextBoxMessage.Text);
                 chatWindow.AddItem(new ChatItem { Message = txtTextBoxMessage.Text });
                 data.AddToMessages(userId, recId, txtTextBoxMessage.Text, false, DateTime.Now);
-                txtTextBoxMessage.Clear();
             }
+            txtTextBoxMessage.Clear();
         }
 
         //         3. Buttons in List
@@ -165,7 +167,8 @@ namespace WpfApp20
                 ContactItem selectedContact = (ContactItem)ContactsListBox.SelectedItem;
                 if (selectedContact.IsGroup == true)
                 {
-
+                    int selectedMId = data.GetGroupId(selectedContact.Name);
+                    chatWindow.DisplayGroupConversation(selectedMId);
                 }
                 else
                 {

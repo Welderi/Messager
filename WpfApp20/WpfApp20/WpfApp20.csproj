@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBase\DataBase.csproj" />
+    <ProjectReference Include="..\ServerProject\ServerProject.csproj" />
   </ItemGroup>
 
   <ItemGroup>

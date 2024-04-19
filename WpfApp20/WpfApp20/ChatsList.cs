@@ -46,15 +46,6 @@ namespace WpfApp20
                     AddItem(contactItem);
                 }
 
-                if (dbContext.Groups.FirstOrDefault(c => c.CreatorID == id) != null)
-                {
-                    var gr = dbContext.Groups.FirstOrDefault(c => c.CreatorID == id);
-
-                    var contactItem = new ContactItem { Name = gr.Name, IsGroup = true };
-
-                    AddItem(contactItem);
-                }
-
                 foreach (var contact in contactsForConcreteUser)
                 {
                     var user = dbContext.Users.FirstOrDefault(u => u.UserID == contact.UserID);

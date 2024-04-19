@@ -45,12 +45,13 @@ namespace WpfApp20
         {
             using (var dbContext = new DataBaseDbContext())
             {
-                var gr = dbContext.GroupMemberships.Where(m => m.GroupGMID == GroupId).ToList();
+                var gr = dbContext.MessagesGroups.Where(m => m.MessageGroupID == GroupId).ToList();
 
-                //foreach ()
-                //{
-
-                //}
+                foreach (var gritem in gr)
+                {
+                    var chatItem = new ChatItem { Message = gritem.GroupMessage };
+                    AddItem(chatItem);
+                }
             }
         }
         protected virtual void OnPropertyChanged(string propertyName)

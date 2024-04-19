@@ -34,17 +34,10 @@ namespace WpfApp20
             byte[] messageBytes = Encoding.ASCII.GetBytes(recId + "|" + msg);
             await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
         }
-        public async Task SendMessageToGroup(int groupId, string msg)
+        public async Task SendMessageGroup(string group, string id, string msg)
         {
-            var groupMembers = data.GroupMemberships
-                               .Where(g => g.GroupGMID == groupId)
-                               .Select(g => g.UserGMID)
-                               .ToList();
-
-            foreach (var memberId in groupMembers)
-            {
-                await SendMessage(memberId.ToString(), msg);
-            }
+            byte[] messageBytes = Encoding.ASCII.GetBytes($"g{group}|{id}|{msg}");
+            await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
         }
         private async Task ReceiveMessages()
         {
@@ -53,7 +46,18 @@ namespace WpfApp20
                 byte[] buffer = new byte[1024];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
                 string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                if (!string.IsNullOrEmpty(message))
+                if (message.StartsWith("g"))
+                {
+                    int pipeIndex = message.IndexOf("|");
+                    string group = message.Substring(1, pipeIndex - 1);
+                    message = message.Substring(pipeIndex + 1);
+
+                    pipeIndex = message.IndexOf("|");
+                    string id = message.Substring(0, pipeIndex);
+                    string msg = message.Substring(pipeIndex + 1);
+                    MessageReceived?.Invoke(this, msg);
+                }
+                else
                 {
                     MessageReceived?.Invoke(this, message);
                 }

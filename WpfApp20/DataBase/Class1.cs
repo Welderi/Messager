@@ -18,6 +18,8 @@ namespace DataBase
         public DbSet<Message> Messages { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMembership> GroupMemberships { get; set; }
+        public DbSet<MessagesGroup> MessagesGroups { get; set; }
+
         public DataBaseDbContext()
         {
             if (!Database.CanConnect())
@@ -76,6 +78,18 @@ namespace DataBase
                 .HasOne(gm => gm.group)
                 .WithMany()
                 .HasForeignKey(gm => gm.GroupGMID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MessagesGroup>()
+                .HasOne(mg => mg.GM)
+                .WithMany()
+                .HasForeignKey(mg => mg.MessageOwnerID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MessagesGroup>()
+                .HasOne(mg => mg.gr)
+                .WithMany()
+                .HasForeignKey(mg => mg.GroupMID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
 
@@ -180,6 +194,12 @@ namespace DataBase
             }
         }
 
+        public int GetGroupId(string name)
+        {
+            var gr = Groups.FirstOrDefault(u => u.Name == name);
+            return gr.GroupID;
+        }
+
         // GM
         public void AddToGroupMemberships(int userGMID, int groupGMID, string role, DateTime time)
         {
@@ -198,6 +218,38 @@ namespace DataBase
             if (GMToRemove != null)
             {
                 GroupMemberships.Remove(GMToRemove);
+                SaveChanges();
+            }
+        }
+        public List<User> GetAllGM(int id)
+        {
+            var l = new List<User>();
+            var c = GroupMemberships.Where(u => u.GroupGMID == id).ToArray();
+            foreach (var u in c)
+            {
+                var us = Users.FirstOrDefault(o => o.UserID == u.UserGMID);
+                l.Add(us);
+            }
+            return l;
+        }
+
+        // MG
+        public void AddToMessageGroup(int messageOwnerID, int groupMID, string message)
+        {
+            MessagesGroups.Add(new MessagesGroup
+            {
+                MessageOwnerID = messageOwnerID,
+                GroupMID = groupMID,
+                GroupMessage = message
+            });
+            SaveChanges();
+        }
+        public void DeleteFromMessagesGroup(int id)
+        {
+            var MGToRemove = MessagesGroups.FirstOrDefault(m => m.MessageGroupID == id);
+            if (MGToRemove != null)
+            {
+                MessagesGroups.Remove(MGToRemove);
                 SaveChanges();
             }
         }
