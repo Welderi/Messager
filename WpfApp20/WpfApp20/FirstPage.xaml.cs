@@ -227,6 +227,11 @@ namespace WpfApp20
         {
             GroupCreateBorder.Visibility = (GroupCreateBorder.Visibility == Visibility.Visible) ? Visibility.Collapsed : Visibility.Visible;
         }
+
+        private void AllContactsInGroupCreating_SelectionChanged(object sender)
+        {
+
+        }
     }
 }
 
