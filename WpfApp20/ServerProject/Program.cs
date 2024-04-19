@@ -27,7 +27,7 @@ namespace ServerProject
             {
                 var list = data.GroupMemberships.ToList();
 
-                if (list != null)
+                if (list.Count > 0)
                 {
                     foreach (var item in list)
                     {
@@ -82,33 +82,20 @@ namespace ServerProject
 
                                 await BroadcastToGroup(groupId, id, message);
                             }
-                            else
+                            else if (message.StartsWith("p"))
                             {
                                 int pipeIndex = message.IndexOf("|");
-                                string recipientId = message.Substring(0, pipeIndex);
+                                string recipientId = message.Substring(1, pipeIndex - 1);
                                 string msg = message.Substring(pipeIndex + 1);
+                                if (clients.ContainsKey(recipientId))
+                                {
+                                    TcpClient destClient = clients[recipientId];
+                                    NetworkStream destStream = destClient.GetStream();
 
-                                
-                                //if (data.Length == 2 && message != "")
-                                //{
-                                //    string[] recipients = data[0].Split(',');
-                                //    foreach (string recipientId in recipients)
-                                //    {
-                                //        if (clients.ContainsKey(recipientId))
-                                //        {
-                                //            TcpClient destClient;
-                                //            if (clients.TryGetValue(recipientId, out destClient))
-                                //            {
-                                //                using (NetworkStream destStream = destClient.GetStream())
-                                //                {
-                                //                    byte[] bytesToSend = Encoding.ASCII.GetBytes(data[1]);
-                                //                    await destStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
-                                //                    await destStream.FlushAsync();
-                                //                }
-                                //            }
-                                //        }
-                                //    }
-                                //}
+                                    byte[] bytesToSend = Encoding.ASCII.GetBytes("p|" + recipientId + "|" + msg);
+                                    await destStream.WriteAsync(bytesToSend, 0, bytesToSend.Length);
+                                    await destStream.FlushAsync();
+                                }
                             }
                         }
                     }

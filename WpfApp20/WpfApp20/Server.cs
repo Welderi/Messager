@@ -31,7 +31,7 @@ namespace WpfApp20
 
         public async Task SendMessage(string recId, string msg)
         {
-            byte[] messageBytes = Encoding.ASCII.GetBytes(recId + "|" + msg);
+            byte[] messageBytes = Encoding.ASCII.GetBytes($"p{recId}|{msg}");
             await stream.WriteAsync(messageBytes, 0, messageBytes.Length);
         }
         public async Task SendMessageGroup(string group, string id, string msg)
@@ -43,23 +43,54 @@ namespace WpfApp20
         {
             while (true)
             {
-                byte[] buffer = new byte[1024];
-                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                if (message.StartsWith("g"))
+                try
                 {
-                    int pipeIndex = message.IndexOf("|");
-                    string group = message.Substring(1, pipeIndex - 1);
-                    message = message.Substring(pipeIndex + 1);
+                    byte[] buffer = new byte[1024];
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    string message = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                    if (message.StartsWith("g"))
+                    {
+                        int pipeIndex = message.IndexOf("|");
+                        if (pipeIndex != -1)
+                        {
+                            string group = message.Substring(1, pipeIndex - 1);
+                            message = message.Substring(pipeIndex + 1);
 
-                    pipeIndex = message.IndexOf("|");
-                    string id = message.Substring(0, pipeIndex);
-                    string msg = message.Substring(pipeIndex + 1);
-                    MessageReceived?.Invoke(this, msg);
+                            pipeIndex = message.IndexOf("|");
+                            if (pipeIndex != -1)
+                            {
+                                string id = message.Substring(0, pipeIndex);
+                                string msg = message.Substring(pipeIndex + 1);
+                                MessageReceived?.Invoke(this, msg);
+                            }
+                        }
+                    }
+                    else if (message.StartsWith("p"))
+                    {
+                        int pipeIndex = message.IndexOf("|");
+                        if (pipeIndex != -1)
+                        {
+                            string group = message.Substring(1, pipeIndex - 1);
+                            message = message.Substring(pipeIndex + 1);
+
+                            pipeIndex = message.IndexOf("|");
+                            if (pipeIndex != -1)
+                            {
+                                string id = message.Substring(0, pipeIndex);
+                                string msg = message.Substring(pipeIndex + 1);
+                                MessageReceived?.Invoke(this, msg);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageReceived?.Invoke(this, message);
+                    MessageBox.Show($"Error receiving message: {ex.Message}");
+                    break;
                 }
             }
         }
