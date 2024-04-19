@@ -94,7 +94,7 @@ namespace DataBase
         public int MessageGroupID { get; set; }
         public int MessageOwnerID { get; set; }
         [ForeignKey("MessageOwnerID")]
-        public GroupMembership GM { get; set; }
+        public User GM { get; set; }
         public int GroupMID { get; set; }
         [ForeignKey("GroupMID")]
         public Group gr { get; set; }

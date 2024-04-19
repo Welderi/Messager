@@ -83,6 +83,11 @@
                             <TextBlock Text="{Binding Name}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Remove" Click="DeleteMenuItem_Click" />
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
             </Grid>
 
@@ -174,7 +179,7 @@
                 <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
                            Panel.ZIndex="1" Text="Search here ..."
                            Visibility="Visible"/>
-                <TextBox x:Name="txtSearch"/>
+                <TextBox x:Name="txtSearch" TextChanged="SearchText"/>
 
                 <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
                                        Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>

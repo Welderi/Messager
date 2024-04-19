@@ -43,9 +43,11 @@ namespace WpfApp20
         }
         public void DisplayGroupConversation(int GroupId)
         {
+            MessagesCollection.Clear();
+
             using (var dbContext = new DataBaseDbContext())
             {
-                var gr = dbContext.MessagesGroups.Where(m => m.MessageGroupID == GroupId).ToList();
+                var gr = dbContext.MessagesGroups.Where(m => m.GroupMID == GroupId).ToList();
 
                 foreach (var gritem in gr)
                 {

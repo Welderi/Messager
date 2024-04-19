@@ -135,6 +135,10 @@ namespace WpfApp20
             }
             txtTextBoxMessage.Clear();
         }
+        public void SearchText(object obj, RoutedEventArgs arg)
+        {
+
+        }
 
         //         3. Buttons in List
 
@@ -155,6 +159,36 @@ namespace WpfApp20
             else
             {
                 MessageBox.Show("You can not choose group");
+            }
+        }
+        public async void DeleteMenuItem_Click(object s, RoutedEventArgs arg)
+        {
+            if (ContactsListBox.SelectedItem != null)
+            {
+                ContactItem selectedContact = (ContactItem)ContactsListBox.SelectedItem;
+                if (selectedContact.IsGroup != true)
+                {
+                    var user = data.Users.FirstOrDefault(u => u.Name == selectedContact.Name);
+                    data.DeleteFromContacts(user.UserID);
+                    chatsList.RemoveItem(selectedContact);
+                }
+                else
+                {
+                    var group = data.Groups.FirstOrDefault(u => u.Name == selectedContact.Name);
+                    if (group.CreatorID != userId)
+                    {
+                        var groupM = data.GroupMemberships.Where(g => g.GroupGMID == group.GroupID).FirstOrDefault(g => g.UserGMID == userId);
+                        var user = data.Users.FirstOrDefault(u => u.UserID == groupM.UserGMID);
+                        await program.SendMessageGroup(group.GroupID.ToString(), userId.ToString(), $"User {user.Name} was deleted from the chat");
+                        chatsList.RemoveItem(selectedContact);
+                        data.DeleteFromGroupMemberships(userId);
+                        data.AddToMessageGroup(userId, group.GroupID, $"User {user.Name} was deleted from the chat");
+                    }
+                    else
+                    {
+                        MessageBox.Show("You cant be removed, because you are admin");
+                    }
+                }
             }
         }
 

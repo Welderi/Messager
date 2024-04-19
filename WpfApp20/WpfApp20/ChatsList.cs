@@ -21,7 +21,11 @@ namespace WpfApp20
             ContactsCollection.Add(obj);
             OnPropertyChanged(nameof(ContactsCollection));   
         }
-
+        public void RemoveItem(ContactItem obj)
+        {
+            ContactsCollection.Remove(obj);
+            OnPropertyChanged(nameof(ContactsCollection));
+        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
