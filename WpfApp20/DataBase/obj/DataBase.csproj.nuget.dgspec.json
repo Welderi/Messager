@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj": {}
+    "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj": {
+    "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
         "projectName": "DataBase",
-        "projectPath": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
-        "packagesPath": "C:\\Users\\lizak\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lizak\\source\\repos\\Messager\\WpfApp20\\DataBase\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\DataBase.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Source\\Repos\\Messager\\WpfApp20\\DataBase\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\lizak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.414\\RuntimeIdentifierGraph.json"
         }
       }
     }

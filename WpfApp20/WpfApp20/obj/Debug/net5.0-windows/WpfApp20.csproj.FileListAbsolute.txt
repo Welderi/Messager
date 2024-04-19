@@ -294,3 +294,12 @@ C:\Users\lizak\source\repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\
 C:\Users\lizak\source\repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.exe
 C:\Users\lizak\source\repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.dll
 C:\Users\lizak\source\repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.pdb
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.deps.json
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.runtimeconfig.json
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.runtimeconfig.dev.json
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.exe
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\DataBase.dll
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.dll
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\DataBase.pdb
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\bin\Debug\net5.0-windows\ServerProject.pdb
+C:\Users\Admin\Source\Repos\Messager\WpfApp20\WpfApp20\obj\Debug\net5.0-windows\GeneratedInternalTypeHelper.g.cs

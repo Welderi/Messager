@@ -37,7 +37,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <!--Left Menu-->
@@ -72,23 +72,23 @@
                 <Icon:PackIconMaterial Kind="Menu" Width="30" Height="30"/>
             </Button>
 
-            <!-- List Box with all chats -->
             <Grid Grid.Row="1" Background="Aqua" Height="600">
-                <ListBox x:Name="ContactsListBox"
-                     ItemsSource="{Binding ContactsCollection}"
-                     SelectionChanged="ContactsListBoxChanged">
-                    <!--You can change item template for your own style-->
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Remove" Click="DeleteMenuItem_Click" />
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,-4">
+                    <ListBox x:Name="ContactsListBox"
+                 ItemsSource="{Binding ContactsCollection}"
+                 SelectionChanged="ContactsListBoxChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove" Click="DeleteMenuItem_Click" />
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
+                    </ListBox>
+                </Border>
             </Grid>
 
             <Border Background="#623ed0" CornerRadius="0 50 0 0"
@@ -176,13 +176,13 @@
 
             <Grid Width="320" HorizontalAlignment="Right" Margin="0,30,100,0"
                   Height="30" VerticalAlignment="Top">
-                <TextBlock Margin="20 0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
+                <TextBlock Margin="-33,0,25,0" VerticalAlignment="Center" Foreground="#b0b9c6" IsHitTestVisible="False"
                            Panel.ZIndex="1" Text="Search here ..."
                            Visibility="Visible"/>
-                <TextBox x:Name="txtSearch" TextChanged="SearchText"/>
+                <TextBox x:Name="txtSearch" TextChanged="SearchText" Margin="-43,0,0,0"/>
 
-                <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="15" VerticalAlignment="Center"
-                                       Margin="0 0 15 0" Foreground="#b0b9c6" HorizontalAlignment="Right"/>
+                <Icon:PackIconMaterial Kind="Magnify" Width="15" Height="14" VerticalAlignment="Center"
+                                       Margin="295,0,0,0" Foreground="#b0b9c6"/>
             </Grid>
 
             <!--Chat-->
@@ -195,7 +195,8 @@
 
                 <Grid>
                     <ListBox x:Name="ChatWindowListBox" Height="500"
-                     ItemsSource="{Binding MessagesCollection}" Style="{StaticResource ListBoxStyleChat}">
+             ItemsSource="{Binding MessagesCollection}" Style="{StaticResource ListBoxStyleChat}"
+             BorderBrush="Black" BorderThickness="1">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Message}" />
@@ -204,17 +205,20 @@
                     </ListBox>
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="10">
-                    <Button Height="50" Width="50" HorizontalAlignment="Right"
-                    Content="Send" VerticalAlignment="Bottom"
-                    Click="SendMessage"></Button>
+
+                <Grid Grid.Row="1" Margin="20,20,20,20" RenderTransformOrigin="0.499,0.55">
+                    <Button Style="{StaticResource menuButton}" Margin="724,3,10,3" Background="#623ed0">
+                        <StackPanel Orientation="Horizontal" Width="46" Height="32">
+                            <Icon:PackIconMaterial Kind="SendCheck" Style="{StaticResource menuButtonIcon}"/>
+                        </StackPanel>
+                    </Button>
 
                     <TextBox x:Name="txtTextBoxMessage"
-                     VerticalAlignment="Bottom" Margin="10" Width="500"/>
+                     VerticalAlignment="Top" Margin="60,13,83,0" Height="18"/>
                 </Grid>
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" Margin="0,0,0,-23">
                 <!--Add contact border-->
 
                 <Border Background="AliceBlue" Grid.Column="1" Height="300"
@@ -266,9 +270,9 @@
                                     </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                            </ListBox>
+                        </ListBox>
 
-                            <ListBox Height="300" Width="200" 
+                        <ListBox Height="300" Width="200" 
                                  HorizontalAlignment="Right" x:Name="ContactsInGroup" MouseDoubleClick="RemoveContactFromGroup">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
